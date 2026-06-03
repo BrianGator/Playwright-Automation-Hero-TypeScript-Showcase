@@ -1,6 +1,6 @@
 # Hands-On Automated Testing with Playwright TypeScript
 
-A comprehensive Playwright automation showcase using **TypeScript**, **Playwright Test**, **Page Object Model**, **fixtures**, **multi-browser projects**, **CI/CD**, **accessibility checks**, **visual regression testing**, **mobile emulation**, **file workflows**, **authentication state**, and a real-world **e-commerce testing project**.
+A comprehensive Playwright automation showcase using **TypeScript**, **Playwright Test**, **Page Object Model**, **fixtures**, **multi-browser projects**, **CI/CD**, **API testing**, **login/authentication testing**, **accessibility testing**, **visual regression testing**, **mobile emulation**, **file workflows**, **authentication state**, and real-world framework design patterns.
 
 This repository is written as a practical tutorial guide for QA engineers, SDETs, developers, and automation engineers who want to build reliable Playwright automation frameworks with TypeScript.
 
@@ -11,25 +11,32 @@ This repository is written as a practical tutorial guide for QA engineers, SDETs
 ## Table of Contents
 
 | # | Module | Primary Coverage |
-|---|---|---|
-| 1 | [Quick Setup Refresher - Installing Playwright and Dependencies](#1-quick-setup-refresher---installing-playwright-and-dependencies) | Installing Playwright, browsers, TypeScript, project setup, first test. |
-| 2 | [Advanced Selectors and Handling Dynamic Content](#2-advanced-selectors-and-handling-dynamic-content) | `getBy*` locators, fallback selectors, dynamic waits, dialogs, iframes, Shadow DOM. |
-| 3 | [Browser-Agnostic Testing Across Chromium, Firefox, and WebKit](#3-browser-agnostic-testing-across-chromium-firefox-and-webkit) | Multi-browser projects, browser-specific debugging, cross-browser compatibility. |
-| 4 | [AI-Powered Test Generation](#4-ai-powered-test-generation) | Codegen, MCP/Copilot-assisted generation, prompt refinement, resilient locators. |
-| 5 | [Crafting Scalable Tests with the Fixture System](#5-crafting-scalable-tests-with-the-fixture-system) | Built-in fixtures, custom fixtures, fixture scope, lifecycle, reusable test context. |
-| 6 | [Test Parallelization and Performance Optimization](#6-test-parallelization-and-performance-optimization) | Workers, parallel execution, resource control, retries, sharding, performance tuning. |
-| 7 | [Integrating Workflows with CI/CD Pipelines](#7-integrating-workflows-with-cicd-pipelines) | GitHub Actions, reports, artifacts, matrix builds, Dockerized execution. |
-| 8 | [Headless Testing and Debugging](#8-headless-testing-and-debugging) | Headless/headful modes, Inspector, UI Mode, screenshots, videos, traces. |
-| 9 | [Accessibility Testing with Playwright and axe-core](#9-accessibility-testing-with-playwright-and-axe-core) | axe-core integration, WCAG checks, automated accessibility tests, manual complement. |
-| 10 | [Setting Up Visual Regression Testing](#10-setting-up-visual-regression-testing) | Screenshots, visual comparisons, thresholds, stable visual workflows. |
-| 11 | [Testing Mobile Web Experiences](#11-testing-mobile-web-experiences) | Device emulation, viewport, touch, geolocation, mobile debugging. |
-| 12 | [Testing Forms](#12-testing-forms) | Inputs, dropdowns, checkboxes, radio buttons, date pickers, validation messages. |
-| 13 | [Handling File Uploads and Downloads](#13-handling-file-uploads-and-downloads) | Upload inputs, download events, file cleanup, test artifacts. |
-| 14 | [Security and Authentication](#14-security-and-authentication) | Login/logout, storage state, multiple roles, session reuse, secure secrets. |
-| 15 | [Best Practices for Test Maintainability](#15-best-practices-for-test-maintainability) | Clean code, Page Object Model, test data management, readable assertions. |
-| 16 | [Real-World Project - Testing an E-Commerce Website](#16-real-world-project---testing-an-e-commerce-website) | Project initialization, structure, auth storage states, data factories, bulk users. |
-| 17 | [Streamlining Playwright in Modern Development Workflows](#17-streamlining-playwright-in-modern-development-workflows) | Cloud testing, Agile workflows, DevOps feedback loops, scalable execution. |
-| 18 | [Community and Learning Resources](#18-community-and-learning-resources) | Playwright docs, testing resources, automation growth path. |
+|---:|---|---|
+| 1 | [Quick Setup Refresher - Installing Playwright and Dependencies](#1-quick-setup-refresher---installing-playwright-and-dependencies) | Installing Playwright, browsers, TypeScript, project setup, first test, command line, UI Mode, and package scripts. |
+| 2 | [Advanced Selectors and Handling Dynamic Content](#2-advanced-selectors-and-handling-dynamic-content) | `getBy*` locators, fallback selectors, locator strategy, auto-waiting, custom waits, dialogs, iframes, Shadow DOM, and dynamic UI. |
+| 3 | [Browser-Agnostic Testing Across Chromium, Firefox, and WebKit](#3-browser-agnostic-testing-across-chromium-firefox-and-webkit) | Multi-browser projects, browser-specific debugging, cross-browser compatibility, and test matrix design. |
+| 4 | [AI-Powered Test Generation](#4-ai-powered-test-generation) | Playwright Codegen, AI-assisted generation, locator refinement, prompt strategy, and reliable script cleanup. |
+| 5 | [Crafting Scalable Tests with the Fixture System](#5-crafting-scalable-tests-with-the-fixture-system) | Built-in fixtures, custom fixtures, worker fixtures, page object injection, lifecycle, and reusable test context. |
+| 6 | [Test Parallelization and Performance Optimization](#6-test-parallelization-and-performance-optimization) | Workers, parallel execution, retries, sharding, storage state, isolation, performance tuning, and CI speed. |
+| 7 | [Integrating Workflows with CI/CD Pipelines](#7-integrating-workflows-with-cicd-pipelines) | GitHub Actions, reports, artifacts, browser matrices, Docker, environment variables, and CI execution strategy. |
+| 8 | [Headless Testing and Debugging](#8-headless-testing-and-debugging) | Headless/headful modes, Inspector, UI Mode, screenshots, videos, traces, console logs, and debugging workflow. |
+| 9 | [Accessibility Testing with Playwright and axe-core](#9-accessibility-testing-with-playwright-and-axe-core) | axe-core integration, WCAG checks, accessibility assertions, manual accessibility support, and reporting. |
+| 10 | [Setting Up Visual Regression Testing](#10-setting-up-visual-regression-testing) | Screenshot baselines, visual comparison, thresholds, masking dynamic elements, snapshots, and stable visual testing. |
+| 11 | [Testing Mobile Web Experiences](#11-testing-mobile-web-experiences) | Device emulation, viewport testing, touch actions, mobile navigation, geolocation, permissions, and responsive testing. |
+| 12 | [Testing Forms](#12-testing-forms) | Text inputs, dropdowns, checkboxes, radio buttons, date pickers, custom controls, validation messages, and negative tests. |
+| 13 | [Handling File Uploads and Downloads](#13-handling-file-uploads-and-downloads) | Upload inputs, download events, artifact handling, file cleanup, and validation of file workflows. |
+| 14 | [Security and Authentication](#14-security-and-authentication) | Login/logout, storage state, multi-role testing, session reuse, protected routes, and safe secret handling. |
+| 15 | [Best Practices for Test Maintainability](#15-best-practices-for-test-maintainability) | Clean code, Page Object Model, fixtures, data factories, stable locators, test isolation, and readable assertions. |
+| 16 | [Real-World Project - Testing an E-Commerce Website](#16-real-world-project---testing-an-e-commerce-website) | Project structure, authentication state, data factories, product search, cart, checkout, API setup, and end-to-end flows. |
+| 17 | [Streamlining Playwright in Modern Development Workflows](#17-streamlining-playwright-in-modern-development-workflows) | Agile workflows, DevOps feedback loops, tags, smoke/regression strategy, cloud testing, and release quality gates. |
+| 18 | [Community and Learning Resources](#18-community-and-learning-resources) | Playwright docs, automation growth path, framework practice checklist, and continued learning resources. |
+| 19 | [API Tests with Playwright](#api-tests-with-playwright) | Playwright `request` fixture, GET/POST/PUT/PATCH/DELETE examples, status validation, JSON assertions, and API setup. |
+| 20 | [Login Tests](#login-tests) | Valid login, invalid login, required field validation, logout, protected route, and role-based testing. |
+| 21 | [Locator Information and Best Practices](#locator-information-and-best-practices) | Locator priority, accessible selectors, test IDs, CSS, XPath, Shadow DOM, iframes, dynamic elements, and anti-patterns. |
+| 22 | [Build a Playwright Framework from Scratch](#build-a-playwright-framework-from-scratch) | Required files, folder structure, setup steps, config, page objects, fixtures, API helpers, data factories, and CI. |
+| 23 | [Framework from Scratch vs Pre-Built Frameworks](#framework-from-scratch-vs-pre-built-frameworks) | When to build custom layers, when to keep Playwright out-of-the-box, and framework selection by scenario. |
+| 24 | [Best and Most Popular Framework Patterns](#best-and-most-popular-framework-patterns) | Playwright Test, POM, fixtures, BDD, API-first, accessibility, visual, mobile, Docker, cloud, and enterprise patterns. |
+| 25 | [Top 30 Technical Interview Questions with Code Examples](#top-30-technical-interview-questions-with-code-examples) | Interview Q&A for Playwright TypeScript plus Selenium Java comparison/code examples where relevant. |
 
 ---
 
@@ -37,40 +44,53 @@ This repository is written as a practical tutorial guide for QA engineers, SDETs
 
 | Technology | Usage |
 |---|---|
-| **TypeScript** | Main language for Playwright test specs, page objects, fixtures, and utilities. |
-| **Playwright Test** | Test runner, browser automation engine, assertions, reporting, tracing. |
+| **TypeScript** | Main language for Playwright test specs, page objects, fixtures, data factories, helpers, and configuration. |
+| **Playwright Test** | Browser automation, API testing, assertions, fixtures, reporters, traces, videos, screenshots, and projects. |
 | **Node.js / npm** | Runtime and dependency management. |
-| **GitHub Actions** | CI execution, artifact publishing, multi-browser matrix builds. |
+| **GitHub Actions** | CI execution, artifact publishing, browser matrix builds, and pull request quality gates. |
 | **axe-core** | Automated accessibility scanning. |
-| **Docker** | Optional consistent execution container for CI. |
-| **Faker** | Dynamic test data generation for e-commerce and form workflows. |
-| **dotenv** | Environment-specific configuration and credentials. |
+| **Docker** | Consistent execution container for CI/local parity. |
+| **Faker or custom factories** | Dynamic test data generation for forms, checkout, users, and API setup. |
+| **dotenv** | Local environment variables and safe runtime configuration. |
 
 ---
 
 ## Recommended Project Structure
 
 ```text
-Playwright-Automation-TypeScript-Showcase/
+Playwright-Automation-Hero-TypeScript-Showcase/
 ├── README.md
 ├── package.json
 ├── playwright.config.ts
 ├── tsconfig.json
+├── .env.example
+├── .gitignore
 ├── .github/
 │   └── workflows/
 │       └── playwright.yml
 ├── tests/
 │   ├── setup/
-│   │   └── auth.setup.ts
-│   ├── advanced-selectors.spec.ts
-│   ├── browser-agnostic.spec.ts
-│   ├── accessibility.spec.ts
-│   ├── visual-regression.spec.ts
-│   ├── mobile.spec.ts
-│   ├── forms.spec.ts
-│   ├── files.spec.ts
-│   ├── security-auth.spec.ts
-│   └── ecommerce.spec.ts
+│   │   ├── customer-auth.setup.ts
+│   │   └── admin-auth.setup.ts
+│   ├── api/
+│   │   ├── products.api.spec.ts
+│   │   ├── users.api.spec.ts
+│   │   └── orders.api.spec.ts
+│   ├── auth/
+│   │   ├── login.spec.ts
+│   │   ├── logout.spec.ts
+│   │   └── protected-routes.spec.ts
+│   ├── ui/
+│   │   ├── advanced-selectors.spec.ts
+│   │   ├── forms.spec.ts
+│   │   ├── files.spec.ts
+│   │   └── ecommerce.spec.ts
+│   ├── visual/
+│   │   └── visual-regression.spec.ts
+│   ├── accessibility/
+│   │   └── accessibility.spec.ts
+│   └── mobile/
+│       └── mobile-navigation.spec.ts
 ├── pages/
 │   ├── base.page.ts
 │   ├── login.page.ts
@@ -79,14 +99,17 @@ Playwright-Automation-TypeScript-Showcase/
 │   └── checkout.page.ts
 ├── fixtures/
 │   ├── test.fixtures.ts
-│   └── auth.fixtures.ts
+│   ├── auth.fixtures.ts
+│   └── api.fixtures.ts
 ├── data/
 │   ├── user.factory.ts
-│   └── product.factory.ts
+│   ├── product.factory.ts
+│   └── checkout.factory.ts
 ├── utils/
-│   ├── test-data.ts
+│   ├── api-client.ts
 │   ├── file-utils.ts
-│   └── accessibility.ts
+│   ├── accessibility.ts
+│   └── environment.ts
 ├── storage-states/
 │   ├── customer.json
 │   └── admin.json
@@ -99,16 +122,26 @@ Playwright-Automation-TypeScript-Showcase/
 
 ## Module Details
 
-This module establishes the local Playwright TypeScript environment. It covers creating a Node.js project, installing Playwright, downloading browser engines, adding TypeScript support, running the first test, and viewing the HTML report. This is the baseline for every later module.
+This module creates the Playwright TypeScript environment from scratch. It covers project initialization, dependency installation, browser installation, the first test, package scripts, and local execution through CLI and UI Mode.
 
-## Install Commands
+## Install as a New Independent Project
 
 ```bash
+mkdir playwright-automation-hero
+cd playwright-automation-hero
 npm init -y
 npm init playwright@latest
 npx playwright install
 npx playwright test
 npx playwright show-report
+```
+
+## Add Playwright to an Existing Front-End Project
+
+```bash
+npm install -D @playwright/test typescript dotenv
+npx playwright install
+mkdir -p tests pages fixtures data utils
 ```
 
 ## Example `package.json` Scripts
@@ -120,7 +153,10 @@ npx playwright show-report
     "test:headed": "playwright test --headed",
     "test:ui": "playwright test --ui",
     "test:debug": "playwright test --debug",
-    "report": "playwright show-report"
+    "test:chromium": "playwright test --project=chromium",
+    "test:smoke": "playwright test --grep @smoke",
+    "report": "playwright show-report",
+    "codegen": "playwright codegen"
   }
 }
 ```
@@ -130,30 +166,26 @@ npx playwright show-report
 ```ts
 import { test, expect } from '@playwright/test';
 
-test('home page has expected title', async ({ page }) => {
+test('home page has expected title @smoke', async ({ page }) => {
   await page.goto('https://example.com');
   await expect(page).toHaveTitle(/Example Domain/);
   await expect(page.getByRole('heading', { name: 'Example Domain' })).toBeVisible();
 });
 ```
 
-## Expected Output
+## Expected Result
 
 ```text
 1 passed
 HTML report generated in playwright-report/
 ```
 
-## Expected Result
-
-Playwright launches a browser, opens the target page, validates the page title, validates the heading, and records the test result.
-
 ## Key Takeaways
 
-- `npm init playwright@latest` scaffolds a Playwright project.
+- `npm init playwright@latest` creates a ready-to-run project.
 - `npx playwright install` downloads browser engines.
-- Playwright tests are asynchronous and use `await`.
-- `expect()` provides web-first assertions that auto-wait.
+- Playwright tests are asynchronous and normally use `await`.
+- `expect()` assertions auto-wait until the condition passes or times out.
 
 ---
 
@@ -161,16 +193,14 @@ Playwright launches a browser, opens the target page, validates the page title, 
 
 ## Module Details
 
-This module covers robust locator strategy. The preferred approach is to use Playwright's accessibility-first locators such as `getByRole`, `getByLabel`, `getByText`, `getByPlaceholder`, `getByAltText`, `getByTitle`, and `getByTestId`. Fallback selectors such as CSS, XPath, and text-based selectors should be used only when the application does not expose accessible roles, labels, or stable test IDs.
+This module teaches locator strategy. Playwright tests should prioritize user-facing and accessibility-friendly locators: `getByRole`, `getByLabel`, `getByText`, `getByPlaceholder`, `getByAltText`, `getByTitle`, and `getByTestId`. CSS and XPath are fallback tools for difficult or unsupported DOM structures.
 
-Dynamic content should be handled with Playwright auto-waiting, locator assertions, and targeted custom waits only when necessary. This module also includes dialogs, iframes, nested frames, and Shadow DOM.
-
-## Accessible Locators
+## Accessible Locator Example
 
 ```ts
 import { test, expect } from '@playwright/test';
 
-test('uses accessible getBy locators', async ({ page }) => {
+test('login with accessible locators', async ({ page }) => {
   await page.goto('/login');
 
   await page.getByLabel('Email').fill('customer@example.com');
@@ -181,10 +211,10 @@ test('uses accessible getBy locators', async ({ page }) => {
 });
 ```
 
-## Fallback Selectors
+## Fallback Locator Example
 
 ```ts
-test('uses fallback selectors only when necessary', async ({ page }) => {
+test('uses fallback selectors for complex DOM', async ({ page }) => {
   await page.goto('/products');
 
   await page.locator('[data-test="product-card"]').first().click();
@@ -195,10 +225,10 @@ test('uses fallback selectors only when necessary', async ({ page }) => {
 });
 ```
 
-## Dynamic Content and Custom Waits
+## Dynamic Content Example
 
 ```ts
-test('waits for dynamic search results', async ({ page }) => {
+test('waits for search results without hard waits', async ({ page }) => {
   await page.goto('/search');
 
   await page.getByPlaceholder('Search products').fill('laptop');
@@ -210,23 +240,20 @@ test('waits for dynamic search results', async ({ page }) => {
 });
 ```
 
-## Dialogs and Confirmations
+## Dialog, Iframe, and Shadow DOM Examples
 
 ```ts
 test('handles confirmation dialog', async ({ page }) => {
-  await page.goto('/account');
-
   page.on('dialog', async dialog => {
     expect(dialog.message()).toContain('Are you sure');
     await dialog.accept();
   });
 
+  await page.goto('/account');
   await page.getByRole('button', { name: 'Delete account' }).click();
   await expect(page.getByText('Account deleted')).toBeVisible();
 });
 ```
-
-## Iframes and Nested Frames
 
 ```ts
 test('interacts with iframe payment form', async ({ page }) => {
@@ -242,10 +269,8 @@ test('interacts with iframe payment form', async ({ page }) => {
 });
 ```
 
-## Shadow DOM
-
 ```ts
-test('handles shadow dom component', async ({ page }) => {
+test('handles shadow dom search component', async ({ page }) => {
   await page.goto('/components');
 
   await page.locator('custom-search').getByPlaceholder('Search').fill('tablet');
@@ -257,15 +282,14 @@ test('handles shadow dom component', async ({ page }) => {
 
 ## Expected Result
 
-The tests locate elements using stable, user-facing selectors first, handle dynamic UI without brittle sleeps, interact with dialogs, operate inside frames, and test Shadow DOM components.
+The tests locate stable elements, handle dynamic content without fixed sleeps, interact with dialogs, operate inside iframes, and validate Shadow DOM components.
 
-## Key Takeaways
+## Best Practices
 
-- Prefer `getByRole`, `getByLabel`, and other accessibility locators.
-- Use CSS/XPath only as fallback strategies.
-- Avoid fixed waits such as `waitForTimeout()` unless troubleshooting.
-- Use `frameLocator()` for iframe workflows.
-- Playwright pierces open Shadow DOM automatically through locators.
+- Avoid `waitForTimeout()` except temporary debugging.
+- Prefer accessible locators before CSS/XPath.
+- Use `frameLocator()` for iframes.
+- Use `page.on('dialog')` before the action that triggers the dialog.
 
 ---
 
@@ -273,7 +297,7 @@ The tests locate elements using stable, user-facing selectors first, handle dyna
 
 ## Module Details
 
-This module validates that the same tests work across Chromium, Firefox, and WebKit. Browser-agnostic testing catches compatibility problems before users encounter them. It also requires understanding browser-specific behavior, project configuration, and debugging cross-browser failures.
+Cross-browser testing validates that the same user workflows function in Chromium, Firefox, and WebKit. This catches CSS, JavaScript, rendering, and browser behavior differences before release.
 
 ## Multi-Browser Configuration
 
@@ -285,7 +309,7 @@ export default defineConfig({
   retries: process.env.CI ? 2 : 0,
   reporter: [['html'], ['list']],
   use: {
-    baseURL: 'https://example.com',
+    baseURL: process.env.BASE_URL ?? 'http://localhost:5173',
     trace: 'on-first-retry'
   },
   projects: [
@@ -321,7 +345,7 @@ npx playwright test --project=webkit
 npx playwright test
 ```
 
-## Expected Output
+## Expected Result
 
 ```text
 chromium  passed
@@ -329,16 +353,11 @@ firefox   passed
 webkit    passed
 ```
 
-## Expected Result
+## Best Practices
 
-The same test suite runs across all configured browser engines and exposes any browser-specific failures.
-
-## Key Takeaways
-
-- Configure browsers as Playwright projects.
-- Use `browserName` to log or branch only when absolutely necessary.
-- Avoid browser-specific selectors and timing assumptions.
-- Debug failures per browser using traces, screenshots, and headed mode.
+- Avoid browser-specific test logic unless the product explicitly requires it.
+- Debug browser-specific failures with headed mode and traces.
+- Run a fast Chromium smoke suite on pull requests and broader cross-browser tests before release.
 
 ---
 
@@ -346,7 +365,7 @@ The same test suite runs across all configured browser engines and exposes any b
 
 ## Module Details
 
-This module covers AI-assisted Playwright test generation. Playwright Codegen can generate scripts by recording interactions. AI assistants such as Copilot can help draft test cases, create page objects, and generate assertions. Generated tests should always be reviewed, refactored, and hardened with resilient locators and clear assertions.
+Playwright Codegen and AI tools can accelerate script creation, but generated code should be treated as a draft. Good automation still requires stable locators, meaningful assertions, clean test names, and framework refactoring.
 
 ## Codegen Command
 
@@ -354,14 +373,13 @@ This module covers AI-assisted Playwright test generation. Playwright Codegen ca
 npx playwright codegen https://example.com
 ```
 
-## Codegen-Style Output
+## Generated Test Example
 
 ```ts
 import { test, expect } from '@playwright/test';
 
 test('recorded login flow', async ({ page }) => {
   await page.goto('https://example.com/login');
-  await page.getByLabel('Email').click();
   await page.getByLabel('Email').fill('customer@example.com');
   await page.getByLabel('Password').fill('Password123!');
   await page.getByRole('button', { name: 'Sign in' }).click();
@@ -369,7 +387,7 @@ test('recorded login flow', async ({ page }) => {
 });
 ```
 
-## Prompt for AI-Generated Test Refinement
+## Prompt to Refine AI-Generated Tests
 
 ```text
 Refactor this Playwright test into a TypeScript Page Object Model.
@@ -379,7 +397,7 @@ Avoid waitForTimeout.
 Make test data configurable through environment variables.
 ```
 
-## Refined Page Object Example
+## Refined Page Object
 
 ```ts
 import { Page, expect } from '@playwright/test';
@@ -402,15 +420,14 @@ export class LoginPage {
 
 ## Expected Result
 
-Generated scripts are converted into maintainable test code with strong locators, reusable page objects, and meaningful assertions.
+The generated script is converted into maintainable framework code with stable locators, reusable actions, and meaningful assertions.
 
-## Key Takeaways
+## Best Practices
 
-- Codegen is useful for discovery, not final framework design.
-- AI-generated code must be reviewed before committing.
+- Use Codegen for discovery, not final production tests.
+- Review AI-generated locators and assertions.
 - Replace brittle selectors with accessible locators.
-- Add assertions that prove business behavior.
-- Keep generated code clean, typed, and maintainable.
+- Use AI to accelerate boilerplate, not to skip QA review.
 
 ---
 
@@ -418,9 +435,9 @@ Generated scripts are converted into maintainable test code with strong locators
 
 ## Module Details
 
-Fixtures are Playwright's dependency injection system. Built-in fixtures include `page`, `context`, `browser`, `request`, and `browserName`. Custom fixtures can provide page objects, authenticated users, test data, API clients, and environment-specific objects.
+Fixtures are Playwright's dependency injection system. They supply built-in objects such as `page`, `context`, `browser`, `request`, `browserName`, `isMobile`, and `headless`. Custom fixtures can provide page objects, API clients, data factories, authenticated pages, and logging utilities.
 
-## Custom Fixture Example
+## Custom Page Fixture
 
 ```ts
 import { test as base, expect, Page } from '@playwright/test';
@@ -450,7 +467,7 @@ export const test = base.extend<Fixtures>({
 export { expect };
 ```
 
-## Test Using Custom Fixture
+## Test Using Fixture
 
 ```ts
 import { test, expect } from '../fixtures/test.fixtures';
@@ -458,38 +475,32 @@ import { test, expect } from '../fixtures/test.fixtures';
 test('customer can add product to cart', async ({ productsPage, page }) => {
   await productsPage.goto();
   await productsPage.addFirstProductToCart();
-
   await expect(page.getByTestId('cart-count')).toHaveText('1');
 });
 ```
 
-## Worker-Scoped Fixture Example
+## Worker-Scoped Fixture
 
 ```ts
 import { test as base } from '@playwright/test';
 
-type WorkerFixtures = {
-  apiToken: string;
-};
-
-export const test = base.extend<{}, WorkerFixtures>({
-  apiToken: [async ({}, use) => {
-    const token = process.env.API_TOKEN ?? 'demo-token';
-    await use(token);
+export const test = base.extend<{}, { apiBaseUrl: string }>({
+  apiBaseUrl: [async ({}, use) => {
+    await use(process.env.API_URL ?? 'https://api.example.com');
   }, { scope: 'worker' }]
 });
 ```
 
 ## Expected Result
 
-Fixtures reduce repeated setup, improve test readability, and make common dependencies available across test files.
+Tests receive reusable, typed objects directly in the test function. Common setup is centralized and easier to maintain.
 
-## Key Takeaways
+## Best Practices
 
-- Fixtures provide reusable setup and teardown.
-- Test-scoped fixtures run per test.
-- Worker-scoped fixtures run per worker.
-- Custom fixtures are ideal for page objects, auth, API clients, and test data.
+- Use test-scoped fixtures for page objects.
+- Use worker-scoped fixtures for expensive reusable setup.
+- Keep fixtures small and composable.
+- Merge fixture sets only when needed.
 
 ---
 
@@ -497,9 +508,9 @@ Fixtures reduce repeated setup, improve test readability, and make common depend
 
 ## Module Details
 
-Playwright can run tests in parallel across workers. Parallelization improves feedback speed, but it requires isolated test data, independent tests, controlled resources, and stable environments. This module covers worker configuration, project-level parallelism, sharding, retries, and performance monitoring.
+Parallel execution speeds up test feedback but requires isolated test data and independent tests. This module covers workers, sharding, retries, avoiding repeated login, and measuring slow tests.
 
-## Configuration Example
+## Configuration
 
 ```ts
 import { defineConfig } from '@playwright/test';
@@ -522,10 +533,9 @@ export default defineConfig({
 
 ```ts
 import { test, expect } from '@playwright/test';
-import { faker } from '@faker-js/faker';
 
 test('registers a unique user', async ({ page }) => {
-  const email = faker.internet.email().toLowerCase();
+  const email = `user-${Date.now()}-${Math.random().toString(16).slice(2)}@example.com`;
 
   await page.goto('/register');
   await page.getByLabel('Email').fill(email);
@@ -546,14 +556,14 @@ npx playwright test --shard=3/3
 
 ## Expected Result
 
-Tests run faster while remaining isolated and reliable.
+Tests run faster without colliding over shared users, shared orders, shared carts, or shared database state.
 
-## Key Takeaways
+## Best Practices
 
-- Parallel tests must not share mutable state.
-- Use unique data to avoid collisions.
-- Retries should expose flakiness, not hide broken tests.
-- Sharding helps large suites scale across CI jobs.
+- Never share mutable test data across parallel tests.
+- Use generated data or API setup.
+- Run `--repeat-each` to expose flaky tests.
+- Use sharding for very large suites.
 
 ---
 
@@ -561,7 +571,7 @@ Tests run faster while remaining isolated and reliable.
 
 ## Module Details
 
-This module integrates Playwright with CI/CD. It covers GitHub Actions, installing dependencies, installing browsers, running tests, uploading reports, retaining artifacts, running browser/OS matrices, and using Docker for consistent execution.
+CI/CD integration runs tests automatically on pull requests, commits, nightly schedules, or release branches. It should upload Playwright reports and failure artifacts.
 
 ## GitHub Actions Workflow
 
@@ -605,27 +615,16 @@ jobs:
 docker run --rm -v $PWD:/work -w /work mcr.microsoft.com/playwright:v1.55.0-jammy npm test
 ```
 
-## Expected Output
-
-```text
-npm ci completed
-Playwright browsers installed
-chromium passed
-firefox passed
-webkit passed
-HTML report uploaded as artifact
-```
-
 ## Expected Result
 
-CI runs Playwright tests automatically and preserves reports for debugging.
+CI installs dependencies, installs browsers, runs tests, and uploads reports even when tests fail.
 
-## Key Takeaways
+## Best Practices
 
-- CI should run the same command developers run locally.
-- Upload reports, traces, screenshots, and videos as artifacts.
-- Matrix builds validate multiple browsers.
-- Docker provides consistent runtime dependencies.
+- Run smoke tests on pull requests.
+- Run full regression before release or nightly.
+- Upload traces, screenshots, videos, and HTML reports.
+- Use matrix builds for cross-browser validation.
 
 ---
 
@@ -633,14 +632,16 @@ CI runs Playwright tests automatically and preserves reports for debugging.
 
 ## Module Details
 
-Playwright runs headless by default in CI and can run headful locally for debugging. This module covers Inspector, UI Mode, trace viewer, screenshots, videos, and debug-friendly commands.
+Playwright runs headless by default in CI and can run headed locally for debugging. Debugging tools include UI Mode, Inspector, Trace Viewer, screenshots, videos, console logs, and network inspection.
 
-## Debug Commands
+## Commands
 
 ```bash
 npx playwright test --headed
 npx playwright test --debug
 npx playwright test --ui
+npx playwright test --trace on
+npx playwright show-report
 npx playwright show-trace test-results/trace.zip
 ```
 
@@ -659,27 +660,23 @@ export default defineConfig({
 });
 ```
 
-## Screenshot on Demand
+## Console Log Capture
 
 ```ts
-import { test } from '@playwright/test';
+test('captures console errors', async ({ page }) => {
+  const errors: string[] = [];
+  page.on('console', message => {
+    if (message.type() === 'error') errors.push(message.text());
+  });
 
-test('captures checkout state', async ({ page }) => {
-  await page.goto('/checkout');
-  await page.screenshot({ path: 'test-results/checkout-page.png', fullPage: true });
+  await page.goto('/');
+  expect(errors).toEqual([]);
 });
 ```
 
 ## Expected Result
 
-Failed tests generate screenshots, videos, and traces that can be reviewed locally or in CI artifacts.
-
-## Key Takeaways
-
-- Use headless mode in CI for speed.
-- Use headed/debug/UI mode when developing or troubleshooting.
-- Traces are the most complete debugging artifact.
-- Screenshots and videos help document failure state.
+A failed test includes trace, screenshot, video, and console evidence to determine whether the issue is test code, app behavior, data, or environment.
 
 ---
 
@@ -687,9 +684,9 @@ Failed tests generate screenshots, videos, and traces that can be reviewed local
 
 ## Module Details
 
-Accessibility testing validates whether pages follow accessibility rules such as labels, landmarks, color contrast, keyboard support, and ARIA usage. Automated tools such as axe-core can catch many issues, but manual testing is still required for keyboard flow, screen reader quality, and usability.
+Accessibility testing verifies that the app supports users with disabilities and follows accessibility rules. Automated scanning catches many issues, but manual keyboard and screen reader checks are still needed.
 
-## Installation
+## Install
 
 ```bash
 npm install -D @axe-core/playwright
@@ -713,30 +710,15 @@ test('home page has no critical accessibility violations', async ({ page }) => {
 });
 ```
 
-## Targeted Accessibility Scan
-
-```ts
-test('checkout form is accessible', async ({ page }) => {
-  await page.goto('/checkout');
-
-  const results = await new AxeBuilder({ page })
-    .include('[data-test="checkout-form"]')
-    .analyze();
-
-  expect(results.violations).toEqual([]);
-});
-```
-
 ## Expected Result
 
-The test fails if axe-core finds accessibility violations matching the configured scope and severity.
+The test fails when critical accessibility violations are detected.
 
-## Key Takeaways
+## Best Practices
 
-- Automated accessibility tests catch many WCAG issues.
 - Use `getByRole` and `getByLabel` to encourage accessible markup.
-- Include targeted scans for forms and critical workflows.
-- Manual accessibility testing remains necessary.
+- Scan critical workflows such as login, checkout, and forms.
+- Combine automated checks with manual keyboard testing.
 
 ---
 
@@ -744,24 +726,13 @@ The test fails if axe-core finds accessibility violations matching the configure
 
 ## Module Details
 
-Visual regression testing compares screenshots against approved baselines. It helps catch layout shifts, styling regressions, missing images, responsive issues, and unintended UI changes. Stable visual tests require controlled data, deterministic viewport sizes, disabled animations when appropriate, and acceptable thresholds.
+Visual regression testing compares screenshots to approved baselines. It catches layout regressions, missing content, broken styling, and responsive design issues.
 
-## Visual Test Example
+## Page Screenshot
 
 ```ts
 import { test, expect } from '@playwright/test';
 
-test('product card visual baseline', async ({ page }) => {
-  await page.goto('/products');
-
-  const productCard = page.getByTestId('product-card').first();
-  await expect(productCard).toHaveScreenshot('product-card.png');
-});
-```
-
-## Full Page Screenshot Comparison
-
-```ts
 test('home page visual baseline', async ({ page }) => {
   await page.goto('/');
   await expect(page).toHaveScreenshot('home-page.png', {
@@ -771,35 +742,33 @@ test('home page visual baseline', async ({ page }) => {
 });
 ```
 
-## Disable Animations for Stable Screenshots
+## Component Screenshot
 
 ```ts
-test.beforeEach(async ({ page }) => {
-  await page.addStyleTag({
-    content: `
-      *, *::before, *::after {
-        animation-duration: 0s !important;
-        transition-duration: 0s !important;
-      }
-    `
-  });
+test('product card visual baseline', async ({ page }) => {
+  await page.goto('/products');
+  await expect(page.getByTestId('product-card').first()).toHaveScreenshot('product-card.png');
 });
 ```
 
-## Expected Output
+## Mask Dynamic Elements
 
-```text
-Snapshot written on first run
-Later runs compare against baseline
-Test fails if visual difference exceeds threshold
+```ts
+await expect(page).toHaveScreenshot('checkout.png', {
+  fullPage: true,
+  mask: [page.getByTestId('timestamp'), page.getByTestId('ad-banner')]
+});
 ```
 
-## Key Takeaways
+## Expected Result
 
-- Keep visual tests stable and deterministic.
-- Use component-level screenshots for less flaky checks.
-- Control animations, dates, ads, random content, and test data.
-- Review visual diffs before updating baselines.
+The first run creates a baseline. Later runs compare against that baseline and fail when visual differences exceed the threshold.
+
+## Best Practices
+
+- Mask dynamic dates, ads, IDs, animations, and random content.
+- Prefer component-level screenshots for stability.
+- Review diffs before updating baselines.
 
 ---
 
@@ -807,7 +776,7 @@ Test fails if visual difference exceeds threshold
 
 ## Module Details
 
-Playwright can emulate mobile browsers using predefined device profiles. Mobile web tests should validate viewport behavior, touch interactions, responsive navigation, mobile menus, geolocation, permissions, and device-specific bugs. Emulation is valuable but does not fully replace real-device testing.
+Playwright emulates mobile devices, touch input, viewport size, user agent, orientation, geolocation, and permissions. Mobile emulation is useful for responsive web validation but does not fully replace real-device testing.
 
 ## Mobile Project Configuration
 
@@ -816,14 +785,8 @@ import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
   projects: [
-    {
-      name: 'Mobile Chrome',
-      use: { ...devices['Pixel 7'] }
-    },
-    {
-      name: 'Mobile Safari',
-      use: { ...devices['iPhone 14'] }
-    }
+    { name: 'Mobile Chrome', use: { ...devices['Pixel 7'] } },
+    { name: 'Mobile Safari', use: { ...devices['iPhone 14'] } }
   ]
 });
 ```
@@ -831,8 +794,6 @@ export default defineConfig({
 ## Mobile Navigation Test
 
 ```ts
-import { test, expect } from '@playwright/test';
-
 test('mobile menu opens and navigates', async ({ page }) => {
   await page.goto('/');
 
@@ -844,33 +805,9 @@ test('mobile menu opens and navigates', async ({ page }) => {
 });
 ```
 
-## Geolocation Example
-
-```ts
-import { test, expect } from '@playwright/test';
-
-test.use({
-  geolocation: { latitude: 27.9506, longitude: -82.4572 },
-  permissions: ['geolocation']
-});
-
-test('store locator uses geolocation', async ({ page }) => {
-  await page.goto('/stores');
-  await page.getByRole('button', { name: 'Use my location' }).click();
-  await expect(page.getByText(/nearest store/i)).toBeVisible();
-});
-```
-
 ## Expected Result
 
-Mobile tests validate responsive layout, touch interaction, mobile browser behavior, and location-based workflows.
-
-## Key Takeaways
-
-- Emulation is fast and useful for CI.
-- Real-device testing is still needed for final confidence.
-- Test mobile navigation and viewport-specific elements.
-- Use device projects for repeatable mobile coverage.
+The test validates mobile-specific navigation and responsive page behavior under an emulated device profile.
 
 ---
 
@@ -878,13 +815,11 @@ Mobile tests validate responsive layout, touch interaction, mobile browser behav
 
 ## Module Details
 
-Forms are common sources of defects. This module covers text inputs, dropdowns, checkboxes, radio buttons, date pickers, custom fields, validation logic, error messages, success messages, and data persistence.
+Forms are high-risk areas because they include user input, validation, error messages, required fields, dynamic controls, and submission workflows.
 
-## Form Input Test
+## Text Form Test
 
 ```ts
-import { test, expect } from '@playwright/test';
-
 test('submits contact form', async ({ page }) => {
   await page.goto('/contact');
 
@@ -897,7 +832,17 @@ test('submits contact form', async ({ page }) => {
 });
 ```
 
-## Dropdowns, Checkboxes, and Radio Buttons
+## Dropdowns, Checkboxes, and Validation
+
+```ts
+test('validates required form fields', async ({ page }) => {
+  await page.goto('/register');
+  await page.getByRole('button', { name: 'Create account' }).click();
+
+  await expect(page.getByText('Email is required')).toBeVisible();
+  await expect(page.getByText('Password is required')).toBeVisible();
+});
+```
 
 ```ts
 test('fills preferences form', async ({ page }) => {
@@ -912,29 +857,9 @@ test('fills preferences form', async ({ page }) => {
 });
 ```
 
-## Validation Test
-
-```ts
-test('shows validation errors for invalid form', async ({ page }) => {
-  await page.goto('/register');
-
-  await page.getByRole('button', { name: 'Create account' }).click();
-
-  await expect(page.getByText('Email is required')).toBeVisible();
-  await expect(page.getByText('Password is required')).toBeVisible();
-});
-```
-
 ## Expected Result
 
-The tests verify successful submission and validation behavior for required fields and invalid inputs.
-
-## Key Takeaways
-
-- Use labels for accessible form interaction.
-- Test positive and negative form paths.
-- Validate error messages, not only button clicks.
-- Include custom controls and date picker workflows where applicable.
+The tests validate both successful submission and proper validation errors.
 
 ---
 
@@ -942,12 +867,11 @@ The tests verify successful submission and validation behavior for required fiel
 
 ## Module Details
 
-This module covers upload inputs, drag-and-drop style workflows, download events, file validation, and cleanup. File workflows should verify file name, extension, file contents when relevant, and whether the UI confirms upload/download success.
+File tests validate uploads, downloads, generated files, artifact names, and cleanup.
 
-## File Upload Test
+## Upload Test
 
 ```ts
-import { test, expect } from '@playwright/test';
 import path from 'path';
 
 test('uploads product image', async ({ page }) => {
@@ -960,7 +884,7 @@ test('uploads product image', async ({ page }) => {
 });
 ```
 
-## File Download Test
+## Download Test
 
 ```ts
 test('downloads invoice PDF', async ({ page }) => {
@@ -975,31 +899,9 @@ test('downloads invoice PDF', async ({ page }) => {
 });
 ```
 
-## Multiple File Upload
-
-```ts
-test('uploads multiple attachments', async ({ page }) => {
-  await page.goto('/support');
-
-  await page.getByLabel('Attachments').setInputFiles([
-    'test-data/error-log.txt',
-    'test-data/screenshot.png'
-  ]);
-
-  await expect(page.getByText('2 files selected')).toBeVisible();
-});
-```
-
 ## Expected Result
 
-Upload tests confirm that selected files are accepted by the app. Download tests confirm that the expected file is produced and saved as a test artifact.
-
-## Key Takeaways
-
-- Use `setInputFiles()` for file uploads.
-- Use `page.waitForEvent('download')` before clicking download links.
-- Clean up generated files in CI.
-- Validate file names and important file content when possible.
+The upload test confirms the selected file is accepted. The download test confirms a file is generated and saved.
 
 ---
 
@@ -1007,19 +909,9 @@ Upload tests confirm that selected files are accepted by the app. Download tests
 
 ## Module Details
 
-Authentication tests validate login, logout, session persistence, user role behavior, protected routes, and secure test credential handling. Playwright storage states allow authentication reuse so every test does not need to log in through the UI.
+Authentication coverage validates login, logout, session reuse, protected route behavior, multiple roles, and secure test credential handling.
 
-## Environment Variables
-
-```env
-BASE_URL=https://example.com
-CUSTOMER_EMAIL=customer@example.com
-CUSTOMER_PASSWORD=Password123!
-ADMIN_EMAIL=admin@example.com
-ADMIN_PASSWORD=Password123!
-```
-
-## Authentication Setup
+## Auth Setup with Storage State
 
 ```ts
 import { test as setup, expect } from '@playwright/test';
@@ -1035,27 +927,10 @@ setup('authenticate customer', async ({ page }) => {
 });
 ```
 
-## Authenticated Project Configuration
-
-```ts
-import { defineConfig } from '@playwright/test';
-
-export default defineConfig({
-  projects: [
-    { name: 'setup', testMatch: /.*\.setup\.ts/ },
-    {
-      name: 'customer',
-      dependencies: ['setup'],
-      use: { storageState: 'storage-states/customer.json' }
-    }
-  ]
-});
-```
-
 ## Role-Based Test
 
 ```ts
-import { test, expect } from '@playwright/test';
+test.use({ storageState: 'storage-states/customer.json' });
 
 test('customer cannot access admin dashboard', async ({ page }) => {
   await page.goto('/admin');
@@ -1065,14 +940,7 @@ test('customer cannot access admin dashboard', async ({ page }) => {
 
 ## Expected Result
 
-Authentication is performed once during setup, session state is reused, and role-based access is validated safely.
-
-## Key Takeaways
-
-- Store secrets in environment variables or CI secrets.
-- Do not commit real credentials or sensitive storage states.
-- Use storage state to speed up authenticated tests.
-- Test login, logout, expired sessions, and role restrictions.
+Login runs once and tests reuse the saved authenticated state. Protected routes reject users without the required role.
 
 ---
 
@@ -1080,7 +948,7 @@ Authentication is performed once during setup, session state is reused, and role
 
 ## Module Details
 
-Maintainable tests are readable, stable, isolated, and organized. This module covers Page Object Model, test data factories, reusable utilities, clear assertions, naming conventions, locator strategy, and avoiding anti-patterns.
+Maintainability comes from clear tests, stable locators, reusable page objects, isolated data, concise fixtures, and meaningful assertions.
 
 ## Page Object Model Example
 
@@ -1106,12 +974,9 @@ export class ProductPage {
 }
 ```
 
-## Test Using Page Object
+## Test Using POM
 
 ```ts
-import { test } from '@playwright/test';
-import { ProductPage } from '../pages/product.page';
-
 test('adds named product to cart', async ({ page }) => {
   const products = new ProductPage(page);
 
@@ -1121,31 +986,9 @@ test('adds named product to cart', async ({ page }) => {
 });
 ```
 
-## Test Data Factory
-
-```ts
-import { faker } from '@faker-js/faker';
-
-export function createUser() {
-  return {
-    firstName: faker.person.firstName(),
-    lastName: faker.person.lastName(),
-    email: faker.internet.email().toLowerCase(),
-    password: 'Password123!'
-  };
-}
-```
-
 ## Expected Result
 
-Tests become shorter, locators are centralized, test data is repeatable, and UI changes are easier to maintain.
-
-## Key Takeaways
-
-- Page objects should model user actions, not every DOM detail.
-- Keep assertions meaningful and close to behavior.
-- Avoid brittle selectors and fixed waits.
-- Use factories for unique, realistic test data.
+The test reads like a business workflow while selectors and page-specific actions are centralized in the page class.
 
 ---
 
@@ -1153,31 +996,9 @@ Tests become shorter, locators are centralized, test data is repeatable, and UI 
 
 ## Module Details
 
-This module combines the full Playwright framework into a realistic e-commerce automation project. It covers project initialization, project structure, authentication storage states, data factories, product browsing, cart operations, checkout, admin workflows, and bulk user registration for load-style test data preparation.
+A real-world e-commerce suite should cover product listing, search, product details, add to cart, cart updates, checkout, payment selection, order confirmation, login, logout, admin product management, API setup, and visual/accessibility checks.
 
-## E-Commerce Page Objects
-
-```ts
-import { Page, expect } from '@playwright/test';
-
-export class CartPage {
-  constructor(private readonly page: Page) {}
-
-  async goto() {
-    await this.page.goto('/cart');
-  }
-
-  async expectProductInCart(productName: string) {
-    await expect(this.page.getByTestId('cart-item').filter({ hasText: productName })).toBeVisible();
-  }
-
-  async checkout() {
-    await this.page.getByRole('button', { name: 'Checkout' }).click();
-  }
-}
-```
-
-## Product-to-Checkout Test
+## Checkout Test
 
 ```ts
 import { test, expect } from '@playwright/test';
@@ -1200,38 +1021,23 @@ test('customer can add product and start checkout', async ({ page }) => {
 });
 ```
 
-## Bulk User Registration Data Factory
+## Test Data Factory
 
 ```ts
-import { test, expect } from '@playwright/test';
-import { faker } from '@faker-js/faker';
-
-test('bulk user registration seed', async ({ page }) => {
-  for (let index = 0; index < 5; index++) {
-    const email = faker.internet.email().toLowerCase();
-
-    await page.goto('/register');
-    await page.getByLabel('First name').fill(faker.person.firstName());
-    await page.getByLabel('Last name').fill(faker.person.lastName());
-    await page.getByLabel('Email').fill(email);
-    await page.getByLabel('Password').fill('Password123!');
-    await page.getByRole('button', { name: 'Create account' }).click();
-
-    await expect(page.getByText('Account created')).toBeVisible();
-  }
-});
+export function createCheckoutAddress() {
+  return {
+    street: '123 Testing Way',
+    city: 'Tampa',
+    state: 'FL',
+    postalCode: '33602',
+    country: 'USA'
+  };
+}
 ```
 
 ## Expected Result
 
-The e-commerce suite validates core revenue-critical flows: authentication, product browsing, cart, checkout, admin setup, and reusable test data generation.
-
-## Key Takeaways
-
-- Real projects need structure beyond individual test files.
-- Authentication storage states improve speed.
-- Data factories reduce brittle static test data.
-- E-commerce tests should prioritize critical business flows.
+The e-commerce test validates a revenue-critical workflow from product selection to checkout start.
 
 ---
 
@@ -1239,13 +1045,11 @@ The e-commerce suite validates core revenue-critical flows: authentication, prod
 
 ## Module Details
 
-This module explains how Playwright fits into Agile and DevOps workflows. Teams can run smoke tests on pull requests, regression tests nightly, cross-browser suites before release, and targeted tests during feature development. Cloud testing services can add browser/device scalability when local CI infrastructure is limited.
+Playwright fits into Agile and DevOps by giving fast feedback. Teams can run smoke tests on pull requests, full regression nightly, visual/accessibility checks before release, and targeted tags for feature branches.
 
-## Test Tagging Strategy
+## Tagged Tests
 
 ```ts
-import { test, expect } from '@playwright/test';
-
 test('checkout smoke @smoke', async ({ page }) => {
   await page.goto('/checkout');
   await expect(page.getByRole('heading', { name: 'Checkout' })).toBeVisible();
@@ -1259,7 +1063,7 @@ test('full order workflow @regression', async ({ page }) => {
 });
 ```
 
-## Run Commands by Workflow
+## Commands
 
 ```bash
 npx playwright test --grep @smoke
@@ -1268,35 +1072,9 @@ npx playwright test --project=chromium
 npx playwright test --project="Mobile Chrome"
 ```
 
-## Pull Request Feedback Loop
-
-```yaml
-name: Pull Request Smoke Tests
-on: [pull_request]
-
-jobs:
-  smoke:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-      - run: npm ci
-      - run: npx playwright install --with-deps chromium
-      - run: npx playwright test --grep @smoke --project=chromium
-```
-
 ## Expected Result
 
-Playwright becomes part of the development workflow instead of a separate after-the-fact QA activity.
-
-## Key Takeaways
-
-- Use tags to separate smoke, regression, and feature tests.
-- Run fast checks on pull requests.
-- Run broader suites on scheduled or release workflows.
-- Align Playwright coverage with Agile acceptance criteria and DevOps quality gates.
+Teams can run the right tests at the right time instead of always running the entire suite.
 
 ---
 
@@ -1304,49 +1082,548 @@ Playwright becomes part of the development workflow instead of a separate after-
 
 ## Module Details
 
-This final module identifies ongoing learning resources and broader testing topics. Playwright changes over time, so automation engineers should follow official documentation, release notes, GitHub issues, community examples, and general testing resources.
+Playwright skills grow through repeated framework practice. Useful learning areas include official docs, release notes, locators, fixtures, API testing, storage state, traces, CI/CD, accessibility, visual testing, Docker, and cloud execution.
 
-## Recommended Resources
-
-- Playwright official documentation
-- Playwright release notes
-- Microsoft Playwright GitHub repository
-- TypeScript documentation
-- Web accessibility guidelines and WCAG references
-- axe-core documentation
-- CI/CD provider documentation
-- Test automation design pattern resources
-
-## Practice Roadmap
+## Practice Checklist
 
 ```text
 [ ] Build a first Playwright test
 [ ] Add Page Object Model
 [ ] Add fixtures
 [ ] Add authentication storage state
-[ ] Run tests across Chromium, Firefox, and WebKit
+[ ] Run Chromium, Firefox, and WebKit
 [ ] Add GitHub Actions CI
 [ ] Add screenshots, traces, and videos
 [ ] Add accessibility checks
 [ ] Add visual regression tests
 [ ] Add mobile emulation tests
+[ ] Add API setup helpers
 [ ] Build a real e-commerce suite
+```
+
+---
+
+# API Tests with Playwright
+
+## Detailed Explanation
+
+Playwright's `request` fixture supports API testing without opening a browser. API tests are useful for backend validation, test data setup, cleanup, and verifying integration behavior.
+
+## GET Example
+
+```ts
+import { test, expect } from '@playwright/test';
+
+test('GET products returns product list', async ({ request }) => {
+  const response = await request.get(`${process.env.API_URL}/products`);
+  expect(response.status()).toBe(200);
+
+  const body = await response.json();
+  expect(Array.isArray(body.data)).toBeTruthy();
+  expect(body.data.length).toBeGreaterThan(0);
+});
+```
+
+## POST Example
+
+```ts
+test('POST creates a product', async ({ request }) => {
+  const response = await request.post(`${process.env.API_URL}/products`, {
+    data: {
+      name: 'Automation Hammer',
+      price: 19.99,
+      category: 'Tools'
+    }
+  });
+
+  expect([200, 201]).toContain(response.status());
+  const body = await response.json();
+  expect(body.name).toBe('Automation Hammer');
+});
+```
+
+## PUT/PATCH/DELETE Example
+
+```ts
+test('updates and deletes a product', async ({ request }) => {
+  const create = await request.post(`${process.env.API_URL}/products`, {
+    data: { name: 'Temporary Product', price: 10 }
+  });
+  const created = await create.json();
+
+  const patch = await request.patch(`${process.env.API_URL}/products/${created.id}`, {
+    data: { price: 12 }
+  });
+  expect([200, 204]).toContain(patch.status());
+
+  const remove = await request.delete(`${process.env.API_URL}/products/${created.id}`);
+  expect([200, 202, 204]).toContain(remove.status());
+});
 ```
 
 ## Expected Result
 
-The learner has a roadmap for continued Playwright growth and a framework structure that can be expanded into real project work.
-
-## Key Takeaways
-
-- Playwright skills grow through repeated framework practice.
-- Official documentation should be checked regularly.
-- Community patterns are useful, but framework decisions should fit the project.
-- Strong automation combines reliable tests, maintainable architecture, and fast feedback.
+API tests validate server behavior directly and can create clean test data for UI tests.
 
 ---
 
-# Common Playwright Commands
+# Login Tests
+
+## Valid Login
+
+```ts
+test('valid customer login', async ({ page }) => {
+  await page.goto('/login');
+  await page.getByLabel('Email').fill(process.env.CUSTOMER_EMAIL!);
+  await page.getByLabel('Password').fill(process.env.CUSTOMER_PASSWORD!);
+  await page.getByRole('button', { name: 'Sign in' }).click();
+
+  await expect(page.getByRole('heading', { name: 'My Account' })).toBeVisible();
+});
+```
+
+## Invalid Login
+
+```ts
+test('invalid login shows error', async ({ page }) => {
+  await page.goto('/login');
+  await page.getByLabel('Email').fill('wrong@example.com');
+  await page.getByLabel('Password').fill('WrongPassword');
+  await page.getByRole('button', { name: 'Sign in' }).click();
+
+  await expect(page.getByText('Invalid email or password')).toBeVisible();
+});
+```
+
+## Required Fields
+
+```ts
+test('login requires email and password', async ({ page }) => {
+  await page.goto('/login');
+  await page.getByRole('button', { name: 'Sign in' }).click();
+
+  await expect(page.getByText('Email is required')).toBeVisible();
+  await expect(page.getByText('Password is required')).toBeVisible();
+});
+```
+
+## Expected Result
+
+Login tests validate success, failure, required field validation, and protected route behavior.
+
+---
+
+# Locator Information and Best Practices
+
+## Locator Priority
+
+| Priority | Locator | Best Use |
+|---:|---|---|
+| 1 | `getByRole()` | Buttons, links, headings, checkboxes, radio buttons, dialogs. |
+| 2 | `getByLabel()` | Inputs associated with labels. |
+| 3 | `getByPlaceholder()` | Search boxes and simple fields. |
+| 4 | `getByText()` | User-visible static text. |
+| 5 | `getByTestId()` | Stable test hooks such as `data-test` or `data-testid`. |
+| 6 | CSS | Complex or app-specific DOM targeting. |
+| 7 | XPath | Text/relationship queries when CSS and accessible locators are not enough. |
+
+## Locator Examples
+
+```ts
+await page.getByRole('button', { name: 'Submit Order' }).click();
+await page.getByLabel('Email').fill('demo@example.com');
+await page.getByPlaceholder('Search').fill('hammer');
+await page.getByText('Payment was successful').isVisible();
+await page.getByTestId('checkout-submit').click();
+await page.locator('button.primary').click();
+await page.locator('//button[contains(., "Submit")]').click();
+```
+
+## Anti-Patterns
+
+```ts
+// Avoid brittle index-based locators when possible
+await page.locator('button').nth(7).click();
+
+// Avoid fixed sleeps
+await page.waitForTimeout(5000);
+
+// Prefer this instead
+await expect(page.getByText('Saved')).toBeVisible();
+```
+
+---
+
+# Build a Playwright Framework from Scratch
+
+## Required Files
+
+| File / Folder | Required? | Purpose |
+|---|---:|---|
+| `package.json` | Yes | Dependencies and npm scripts. |
+| `playwright.config.ts` | Yes | Main execution config. |
+| `tsconfig.json` | Yes for TypeScript | TypeScript compiler and path aliases. |
+| `tests/` | Yes | Test specs. |
+| `tests/setup/*.setup.ts` | Recommended | Authentication and setup projects. |
+| `pages/` | Recommended | Page Object Model classes. |
+| `fixtures/` | Recommended | Custom fixture composition. |
+| `data/` | Recommended | Data factories and test data. |
+| `utils/` | Recommended | Shared utilities. |
+| `.env.example` | Recommended | Environment variable template. |
+| `.gitignore` | Yes | Exclude reports, traces, auth files, and secrets. |
+| `.github/workflows/playwright.yml` | Recommended | CI/CD execution. |
+| `Dockerfile` | Optional | Containerized execution. |
+
+## Setup Commands
+
+```bash
+npm init -y
+npm install -D @playwright/test typescript dotenv
+npx playwright install
+mkdir -p tests/setup tests/api tests/ui pages fixtures data utils
+```
+
+## Example Config
+
+```ts
+import { defineConfig, devices } from '@playwright/test';
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+export default defineConfig({
+  testDir: './tests',
+  fullyParallel: true,
+  forbidOnly: !!process.env.CI,
+  retries: process.env.CI ? 2 : 0,
+  workers: process.env.CI ? 4 : undefined,
+  reporter: [['list'], ['html', { open: 'never' }]],
+  use: {
+    baseURL: process.env.BASE_URL ?? 'http://localhost:5173',
+    trace: 'on-first-retry',
+    screenshot: 'only-on-failure',
+    video: 'retain-on-failure',
+    testIdAttribute: 'data-test'
+  },
+  projects: [
+    { name: 'setup', testMatch: /.*\.setup\.ts/ },
+    { name: 'chromium', use: { ...devices['Desktop Chrome'] }, dependencies: ['setup'] },
+    { name: 'firefox', use: { ...devices['Desktop Firefox'] }, dependencies: ['setup'] },
+    { name: 'webkit', use: { ...devices['Desktop Safari'] }, dependencies: ['setup'] },
+    { name: 'mobile-safari', use: { ...devices['iPhone 14'] }, dependencies: ['setup'] }
+  ]
+});
+```
+
+## Expected Result
+
+A complete Playwright TypeScript framework exists with separate layers for tests, config, fixtures, page objects, API helpers, data factories, and CI.
+
+---
+
+# Framework from Scratch vs Pre-Built Frameworks
+
+| Scenario | Use Playwright Out-of-the-Box | Build Custom Framework Layers |
+|---|---|---|
+| Learning Playwright | Yes | No |
+| Small smoke suite | Yes | No |
+| 10-30 tests | Yes, light POM only | Usually no |
+| 50+ regression tests | No | Yes |
+| Many repeated workflows | No | Yes, use POM/helpers |
+| Multiple user roles | No | Yes, use storage states and role fixtures |
+| API data setup needed | Maybe | Yes, add API helpers |
+| CI/CD and reports required | Built-in config may be enough | Add reports/artifacts/matrix strategy |
+| BDD required by stakeholders | No | Add Cucumber layer |
+| Visual regression | Built-in screenshots may be enough | Add baselines/masking/review process |
+| Enterprise suite | No | Yes, structured framework needed |
+
+## Recommendation
+
+Start simple with Playwright Test. Add Page Object Model, fixtures, API helpers, data factories, storage state, visual testing, and CI layers only when the suite grows enough to justify the maintenance overhead.
+
+---
+
+# Best and Most Popular Framework Patterns
+
+| Framework Pattern | Best For | Why It Is Popular | Recommended Structure |
+|---|---|---|---|
+| Plain Playwright Test | Learning, POCs, small suites | Fast setup and minimal abstraction | `tests/*.spec.ts`, `playwright.config.ts` |
+| Playwright + POM | Medium/large UI suites | Reusable page actions and selectors | `pages/`, `tests/` |
+| Playwright + Fixtures | Shared setup and page injection | Native typed dependency injection | `fixtures/`, `pages/`, `tests/` |
+| POM + Fixtures Hybrid | Professional frameworks | Clean tests and scalable structure | `pages/`, `fixtures/`, `data/`, `utils/` |
+| API-First Playwright | Backend validation and UI setup | Uses built-in `request` fixture | `tests/api/`, `utils/api-client.ts` |
+| BDD Playwright + Cucumber | Business-readable scenarios | Gherkin collaboration with BA/PO | `features/`, `steps/`, `pages/` |
+| Visual Regression Framework | UI-heavy apps and design systems | Built-in screenshot assertions | `tests/visual/`, baseline snapshots |
+| Accessibility Framework | WCAG/compliance checks | axe-core integrates well | `tests/accessibility/`, `utils/accessibility.ts` |
+| Mobile Web Framework | Responsive/mobile workflows | Built-in device profiles | mobile projects in config |
+| Dockerized Framework | CI consistency | Official Playwright Docker images | `Dockerfile`, CI workflow |
+| Cloud Browser Framework | Enterprise scaling | Remote browsers and high parallelism | cloud config + CI secrets |
+
+---
+
+# Top 30 Technical Interview Questions with Code Examples
+
+## 1. What is Playwright?
+
+Playwright is a browser automation framework for Chromium, Firefox, and WebKit with built-in test runner, fixtures, assertions, traces, screenshots, videos, API testing, and browser contexts.
+
+```ts
+import { test, expect } from '@playwright/test';
+
+test('basic page test', async ({ page }) => {
+  await page.goto('/');
+  await expect(page).toHaveTitle(/Home/);
+});
+```
+
+## 2. What is the Playwright `page` fixture?
+
+`page` represents a browser tab.
+
+```ts
+test('uses page fixture', async ({ page }) => {
+  await page.goto('/login');
+});
+```
+
+## 3. What is a browser context?
+
+A context is an isolated browser session with its own cookies, storage, permissions, and pages.
+
+```ts
+test('creates isolated context', async ({ browser }) => {
+  const context = await browser.newContext();
+  const page = await context.newPage();
+  await page.goto('/');
+  await context.close();
+});
+```
+
+## 4. Best locator strategy?
+
+Prefer user-facing locators before CSS/XPath.
+
+```ts
+await page.getByRole('button', { name: 'Login' }).click();
+await page.getByLabel('Email').fill('demo@example.com');
+```
+
+## 5. How does auto-waiting work?
+
+Playwright waits for elements to be actionable before actions and waits for assertions until timeout.
+
+```ts
+await expect(page.getByText('Saved')).toBeVisible();
+```
+
+## 6. How do you handle API testing?
+
+Use the `request` fixture.
+
+```ts
+test('api status', async ({ request }) => {
+  const response = await request.get(`${process.env.API_URL}/health`);
+  expect(response.status()).toBe(200);
+});
+```
+
+## 7. How do you reuse login?
+
+Use storage state.
+
+```ts
+await page.context().storageState({ path: 'storage-states/customer.json' });
+```
+
+## 8. How do you run tests in parallel?
+
+```ts
+export default defineConfig({ fullyParallel: true, workers: 4 });
+```
+
+## 9. How do you debug failures?
+
+```bash
+npx playwright test --debug
+npx playwright show-trace test-results/trace.zip
+```
+
+## 10. How do you handle iframes?
+
+```ts
+const frame = page.frameLocator('iframe[name="payment"]');
+await frame.getByLabel('Card number').fill('4111111111111111');
+```
+
+## 11. How do you handle dialogs?
+
+```ts
+page.on('dialog', dialog => dialog.accept());
+await page.getByRole('button', { name: 'Delete' }).click();
+```
+
+## 12. How do you handle downloads?
+
+```ts
+const downloadPromise = page.waitForEvent('download');
+await page.getByText('Download').click();
+const download = await downloadPromise;
+```
+
+## 13. How do you handle file uploads?
+
+```ts
+await page.getByLabel('Upload file').setInputFiles('test-data/file.pdf');
+```
+
+## 14. What is Page Object Model?
+
+POM stores page actions and locators in classes.
+
+```ts
+class LoginPage {
+  constructor(private page: Page) {}
+  async login(email: string, password: string) {
+    await this.page.getByLabel('Email').fill(email);
+    await this.page.getByLabel('Password').fill(password);
+    await this.page.getByRole('button', { name: 'Login' }).click();
+  }
+}
+```
+
+## 15. What are fixtures?
+
+Fixtures provide reusable dependencies to tests.
+
+```ts
+export const test = base.extend<{ loginPage: LoginPage }>({
+  loginPage: async ({ page }, use) => await use(new LoginPage(page))
+});
+```
+
+## 16. How do you test visual regressions?
+
+```ts
+await expect(page).toHaveScreenshot('home-page.png');
+```
+
+## 17. How do you test accessibility?
+
+```ts
+const results = await new AxeBuilder({ page }).analyze();
+expect(results.violations).toEqual([]);
+```
+
+## 18. How do you run mobile tests?
+
+```ts
+projects: [{ name: 'Mobile Safari', use: { ...devices['iPhone 14'] } }]
+```
+
+## 19. How do you mock APIs?
+
+```ts
+await page.route('**/api/products', route => route.fulfill({
+  status: 200,
+  body: JSON.stringify({ data: [] })
+}));
+```
+
+## 20. How do you tag tests?
+
+```ts
+test('checkout smoke @smoke', async ({ page }) => { });
+```
+
+```bash
+npx playwright test --grep @smoke
+```
+
+## 21. Selenium Java comparison: how do you open a browser?
+
+```java
+WebDriver driver = new ChromeDriver();
+driver.get("https://example.com");
+driver.quit();
+```
+
+## 22. Selenium Java: `findElement` vs `findElements`?
+
+```java
+WebElement one = driver.findElement(By.id("email"));
+List<WebElement> many = driver.findElements(By.tagName("a"));
+```
+
+`findElement` throws if missing. `findElements` returns an empty list.
+
+## 23. Selenium Java: explicit wait example
+
+```java
+WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+WebElement button = wait.until(ExpectedConditions.elementToBeClickable(By.id("submit")));
+button.click();
+```
+
+## 24. Selenium Java: iframe example
+
+```java
+driver.switchTo().frame("payment-frame");
+driver.findElement(By.id("cardNumber")).sendKeys("4111111111111111");
+driver.switchTo().defaultContent();
+```
+
+## 25. Selenium Java: Page Object Model example
+
+```java
+public class LoginPage {
+    private WebDriver driver;
+    private By email = By.id("email");
+
+    public LoginPage(WebDriver driver) {
+        this.driver = driver;
+    }
+
+    public void enterEmail(String value) {
+        driver.findElement(email).sendKeys(value);
+    }
+}
+```
+
+## 26. Selenium Java: screenshot example
+
+```java
+File src = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+```
+
+## 27. Selenium Java: dropdown example
+
+```java
+Select select = new Select(driver.findElement(By.id("country")));
+select.selectByVisibleText("United States");
+```
+
+## 28. Selenium Java: API test with REST Assured
+
+```java
+RestAssured.given()
+    .baseUri("https://api.example.com")
+.when()
+    .get("/products")
+.then()
+    .statusCode(200);
+```
+
+## 29. When should you build a custom framework?
+
+Build a framework when tests repeat setup, use multiple roles, require API data setup, need CI reporting, or will be maintained by multiple engineers.
+
+## 30. What should be automated?
+
+Automate stable, repeatable, high-value flows such as login, checkout, search, forms, API contracts, smoke tests, regression tests, mobile checks, accessibility, and visual regression.
+
+---
+
+## Common Playwright Commands
 
 ```bash
 npx playwright test
@@ -1361,8 +1638,8 @@ npx playwright codegen https://example.com
 
 ---
 
-# Portfolio Summary
+## Portfolio Summary
 
-This repository demonstrates professional Playwright automation using TypeScript. It covers installation, advanced locators, dynamic UI, dialogs, iframes, Shadow DOM, multi-browser testing, AI-assisted test generation, custom fixtures, parallel execution, CI/CD, debugging, accessibility, visual regression, mobile emulation, forms, file uploads/downloads, authentication, Page Object Model, test data factories, and a real-world e-commerce testing workflow.
+This repository demonstrates professional Playwright automation using TypeScript. It covers installation, advanced locators, dynamic UI, dialogs, iframes, Shadow DOM, multi-browser testing, AI-assisted generation, custom fixtures, parallel execution, CI/CD, debugging, accessibility, visual regression, mobile emulation, forms, file uploads/downloads, authentication, Page Object Model, API testing, login tests, framework design, and interview preparation.
 
 Written by Brian McCarthy

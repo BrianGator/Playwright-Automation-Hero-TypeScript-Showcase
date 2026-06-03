@@ -1,8 +1,8 @@
-# Hands On Automated Testing with Playwright
+# Hands-On Automated Testing with Playwright TypeScript
 
-Unlock the full potential of Playwright, Microsoft's cutting-edge browser automation framework, with this comprehensive guide to modern web testing. Designed for developers and QA professionals, this repository provides practical examples, best practices, and real-world automation patterns.
+A comprehensive Playwright automation showcase using **TypeScript**, **Playwright Test**, **Page Object Model**, **fixtures**, **multi-browser projects**, **CI/CD**, **accessibility checks**, **visual regression testing**, **mobile emulation**, **file workflows**, **authentication state**, and a real-world **e-commerce testing project**.
 
-From setting up your first test environment to mastering advanced techniques like AI-powered test generation, visual regression testing, and CI/CD integration, each chapter builds upon the last to equip you with the skills needed for professional test automation.
+This repository is written as a practical tutorial guide for QA engineers, SDETs, developers, and automation engineers who want to build reliable Playwright automation frameworks with TypeScript.
 
 **Written by Brian McCarthy**
 
@@ -10,895 +10,1359 @@ From setting up your first test environment to mastering advanced techniques lik
 
 ## Table of Contents
 
-- [Languages & Technologies](#languages--technologies)
-- [Methodologies & Patterns](#methodologies--patterns)
-- [Project Functions & Features](#project-functions--features)
-- [File Structure](#file-structure)
-- [Project Overview](#project-overview)
-- [Code Methodology Summary](#code-methodology-summary)
-- [REST API Automation Guide](#rest-api-automation-guide)
-- [Examples & Tutorials](#examples--tutorials)
-- [Tips & Best Practices](#tips--best-practices)
+| # | Module | Primary Coverage |
+|---|---|---|
+| 1 | [Quick Setup Refresher - Installing Playwright and Dependencies](#1-quick-setup-refresher---installing-playwright-and-dependencies) | Installing Playwright, browsers, TypeScript, project setup, first test. |
+| 2 | [Advanced Selectors and Handling Dynamic Content](#2-advanced-selectors-and-handling-dynamic-content) | `getBy*` locators, fallback selectors, dynamic waits, dialogs, iframes, Shadow DOM. |
+| 3 | [Browser-Agnostic Testing Across Chromium, Firefox, and WebKit](#3-browser-agnostic-testing-across-chromium-firefox-and-webkit) | Multi-browser projects, browser-specific debugging, cross-browser compatibility. |
+| 4 | [AI-Powered Test Generation](#4-ai-powered-test-generation) | Codegen, MCP/Copilot-assisted generation, prompt refinement, resilient locators. |
+| 5 | [Crafting Scalable Tests with the Fixture System](#5-crafting-scalable-tests-with-the-fixture-system) | Built-in fixtures, custom fixtures, fixture scope, lifecycle, reusable test context. |
+| 6 | [Test Parallelization and Performance Optimization](#6-test-parallelization-and-performance-optimization) | Workers, parallel execution, resource control, retries, sharding, performance tuning. |
+| 7 | [Integrating Workflows with CI/CD Pipelines](#7-integrating-workflows-with-cicd-pipelines) | GitHub Actions, reports, artifacts, matrix builds, Dockerized execution. |
+| 8 | [Headless Testing and Debugging](#8-headless-testing-and-debugging) | Headless/headful modes, Inspector, UI Mode, screenshots, videos, traces. |
+| 9 | [Accessibility Testing with Playwright and axe-core](#9-accessibility-testing-with-playwright-and-axe-core) | axe-core integration, WCAG checks, automated accessibility tests, manual complement. |
+| 10 | [Setting Up Visual Regression Testing](#10-setting-up-visual-regression-testing) | Screenshots, visual comparisons, thresholds, stable visual workflows. |
+| 11 | [Testing Mobile Web Experiences](#11-testing-mobile-web-experiences) | Device emulation, viewport, touch, geolocation, mobile debugging. |
+| 12 | [Testing Forms](#12-testing-forms) | Inputs, dropdowns, checkboxes, radio buttons, date pickers, validation messages. |
+| 13 | [Handling File Uploads and Downloads](#13-handling-file-uploads-and-downloads) | Upload inputs, download events, file cleanup, test artifacts. |
+| 14 | [Security and Authentication](#14-security-and-authentication) | Login/logout, storage state, multiple roles, session reuse, secure secrets. |
+| 15 | [Best Practices for Test Maintainability](#15-best-practices-for-test-maintainability) | Clean code, Page Object Model, test data management, readable assertions. |
+| 16 | [Real-World Project - Testing an E-Commerce Website](#16-real-world-project---testing-an-e-commerce-website) | Project initialization, structure, auth storage states, data factories, bulk users. |
+| 17 | [Streamlining Playwright in Modern Development Workflows](#17-streamlining-playwright-in-modern-development-workflows) | Cloud testing, Agile workflows, DevOps feedback loops, scalable execution. |
+| 18 | [Community and Learning Resources](#18-community-and-learning-resources) | Playwright docs, testing resources, automation growth path. |
 
 ---
 
 ## Languages & Technologies
 
-### Primary Languages
-| Language | Percentage | Usage |
-|----------|-----------|-------|
-| **TypeScript** | 96.8% | Core automation framework, test specs, page objects, fixtures |
-| **Batchfile** | 2.7% | Build scripts and automation runners |
-| **Other** | 0.5% | Configuration and documentation |
-
-### Key Technologies & Dependencies
-- **@playwright/test** (v1.55.0) - Modern browser automation framework
-- **TypeScript** (v5.9.2) - Type-safe JavaScript for robust automation code
-- **@faker-js/faker** (v10.0.0) - Test data generation
-- **dotenv** (v17.2.2) - Environment configuration management
-- **ts-node** (v10.9.2) - TypeScript execution for Node.js
-- **@types/node** (v24.3.1) - Node.js type definitions
+| Technology | Usage |
+|---|---|
+| **TypeScript** | Main language for Playwright test specs, page objects, fixtures, and utilities. |
+| **Playwright Test** | Test runner, browser automation engine, assertions, reporting, tracing. |
+| **Node.js / npm** | Runtime and dependency management. |
+| **GitHub Actions** | CI execution, artifact publishing, multi-browser matrix builds. |
+| **axe-core** | Automated accessibility scanning. |
+| **Docker** | Optional consistent execution container for CI. |
+| **Faker** | Dynamic test data generation for e-commerce and form workflows. |
+| **dotenv** | Environment-specific configuration and credentials. |
 
 ---
 
-## Methodologies & Patterns
+## Recommended Project Structure
 
-### 1. **Page Object Model (POM)**
-The Page Object Model pattern encapsulates page-specific interactions into reusable classes, improving maintainability and reducing code duplication.
-
-**Key Benefits:**
-- Centralized element locators
-- Abstracted user interactions
-- Easy maintenance when UI changes
-- Better code organization
-
-**Example Structure:**
-```
-pages/
-├── base.page.ts          # Base class with common functionality
-├── product.page.ts       # Product-specific page interactions
-└── login.page.ts         # Authentication page interactions
-```
-
-### 2. **Fixture-Based Authentication**
-Custom Playwright fixtures provide pre-authenticated browser contexts, enabling efficient test execution with proper authentication state.
-
-**Key Benefits:**
-- Reusable authentication logic
-- Dependency injection pattern
-- Cleaner test code
-- Performance optimization
-
-### 3. **Setup/Teardown Pattern**
-Dedicated setup tests manage authentication and prepare test data before running actual test scenarios.
-
-### 4. **Test Data Factories**
-Using @faker-js/faker for generating realistic test data dynamically.
-
-### 5. **Configuration-Driven Testing**
-Environment variables and configuration files control test behavior across different environments.
-
----
-
-## Project Functions & Features
-
-### Core Functions
-
-| Function | Location | Purpose |
-|----------|----------|---------|
-| `gotoHome()` | BasePage | Navigate to application homepage |
-| `selectCategory(category: string)` | BasePage | Select product category from navigation |
-| `login(email: string, password: string)` | LoginPage | Authenticate user with credentials |
-| `addToCartButton.click()` | ProductPage | Add product to shopping cart |
-| `clearStorage(page: Page)` | BasePage | Clear local/session storage and cookies |
-| `goto(productId?: string)` | ProductPage | Navigate to specific product page |
-| `clickProductByIndex(index: number)` | ProductPage | Click product by position in list |
-
-### Key Features
-
-- **Browser Automation**: Full control over Chromium, Firefox, and WebKit browsers
-- **Parallel Test Execution**: Run tests concurrently for faster feedback
-- **Authentication Management**: Save and reuse authenticated sessions
-- **Visual & Video Recording**: Capture screenshots and videos on test failures
-- **Trace Recording**: Debug failed tests with detailed execution traces
-- **HTML Reporting**: Comprehensive test reports with results visualization
-- **CI/CD Integration**: Optimized for GitHub Actions and other CI platforms
-- **Custom Test ID Attributes**: Target elements using `data-test` attributes
-
----
-
-## File Structure
-
-```
-Playwright-Automation-TypeScript/
-├── Chapter01-16/              # Individual chapter projects
-│
-├── Chapter16/
-│   └── ecom-test-project/     # Complete e-commerce test automation project
-│       ├── tests/
-│       │   ├── auth.setup.ts                 # Authentication setup test
-│       │   └── product.spec.ts               # Product functionality tests
-│       │
-│       ├── pages/
-│       │   ├── base.page.ts                  # Base page class with common methods
-│       │   ├── product.page.ts               # Product page object model
-│       │   └── login.page.ts                 # Login page object model
-│       │
-│       ├── fixtures/
-│       │   └── adminAuth.fixture.ts          # Custom authentication fixture
-│       │
-│       ├── data/
-│       │   └── (test data factories)         # Dynamic test data generation
-│       │
-│       ├── playwright.config.ts              # Playwright configuration
-│       ├── package.json                      # Project dependencies
-│       ├── .env                              # Environment variables (not in repo)
-│       └── .auth/                            # Stored authentication states
-│           ├── customer1StorageState.json
-│           └── adminStorageState.json
-│
-└── README.md                  # This file
+```text
+Playwright-Automation-TypeScript-Showcase/
+├── README.md
+├── package.json
+├── playwright.config.ts
+├── tsconfig.json
+├── .github/
+│   └── workflows/
+│       └── playwright.yml
+├── tests/
+│   ├── setup/
+│   │   └── auth.setup.ts
+│   ├── advanced-selectors.spec.ts
+│   ├── browser-agnostic.spec.ts
+│   ├── accessibility.spec.ts
+│   ├── visual-regression.spec.ts
+│   ├── mobile.spec.ts
+│   ├── forms.spec.ts
+│   ├── files.spec.ts
+│   ├── security-auth.spec.ts
+│   └── ecommerce.spec.ts
+├── pages/
+│   ├── base.page.ts
+│   ├── login.page.ts
+│   ├── product.page.ts
+│   ├── cart.page.ts
+│   └── checkout.page.ts
+├── fixtures/
+│   ├── test.fixtures.ts
+│   └── auth.fixtures.ts
+├── data/
+│   ├── user.factory.ts
+│   └── product.factory.ts
+├── utils/
+│   ├── test-data.ts
+│   ├── file-utils.ts
+│   └── accessibility.ts
+├── storage-states/
+│   ├── customer.json
+│   └── admin.json
+└── test-results/
 ```
 
-### Key Directories Explained
-
-#### `/tests` - Test Specifications
-Contains Playwright test files (`.spec.ts`) that define test scenarios and `.setup.ts` files for test fixtures.
-
-#### `/pages` - Page Object Models
-Encapsulates page-specific element locators and interactions:
-- **BasePage**: Common navigation and utility methods used by all pages
-- **ProductPage**: Product browsing and cart operations
-- **LoginPage**: Authentication workflows
-
-#### `/fixtures` - Test Fixtures
-Custom Playwright fixtures that extend the base `test` object with reusable, pre-configured browser contexts and pages.
-
-#### `/data` - Test Data
-Test data factories and utilities for generating realistic test data using libraries like faker.
-
 ---
 
-## Project Overview
+# 1. Quick Setup Refresher - Installing Playwright and Dependencies
 
-### What is This Project?
+## Module Details
 
-This repository is a comprehensive tutorial on professional Playwright automation testing. The main project is located in `Chapter16/ecom-test-project/`, which demonstrates a complete e-commerce test automation suite.
+This module establishes the local Playwright TypeScript environment. It covers creating a Node.js project, installing Playwright, downloading browser engines, adding TypeScript support, running the first test, and viewing the HTML report. This is the baseline for every later module.
 
-### What It Tests
+## Install Commands
 
-The e-commerce test project automates testing for:
-- User authentication (login/logout)
-- Product browsing and category selection
-- Shopping cart operations
-- Product information display
-- Navigation functionality
+```bash
+npm init -y
+npm init playwright@latest
+npx playwright install
+npx playwright test
+npx playwright show-report
+```
 
-### Target Application
+## Example `package.json` Scripts
 
-Tests are configured to run against: `https://practicesoftwaretesting.com`
-
----
-
-## Code Methodology Summary
-
-### 1. Page Object Model Pattern
-
-**How It Works:**
-```typescript
-// pages/base.page.ts - Base class with shared functionality
-export class BasePage {
-  readonly page: Page;
-  readonly navMenu: Locator;
-  readonly navMenuHome: Locator;
-  
-  constructor(page: Page) {
-    this.page = page;
-    this.navMenu = page.getByTestId("nav-menu");
-    this.navMenuHome = page.getByTestId("nav-home");
-  }
-  
-  async gotoHome() {
-    await this.page.goto("/");
-  }
-  
-  async selectCategory(category: string) {
-    await this.navMenuCategories.click();
-    await this.navCategoryList.getByText(`${category}`).click();
+```json
+{
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:ui": "playwright test --ui",
+    "test:debug": "playwright test --debug",
+    "report": "playwright show-report"
   }
 }
 ```
 
-**Benefits:**
-- All element locators in one place
-- Easy to update when UI changes
-- Reusable methods across tests
-- Clear separation of concerns
+## First Test Example
 
-### 2. Custom Fixtures for Authentication
+```ts
+import { test, expect } from '@playwright/test';
 
-**How It Works:**
-```typescript
-// fixtures/adminAuth.fixture.ts - Pre-authenticated page fixture
-export const test = base.extend<{ adminAuthPage: Page }>({
-  adminAuthPage: async ({ browser }, use) => {
-    const storageStatePath = ".auth/adminStorageState.json";
-    
-    // Login and save authentication state
-    const setupContext = await browser.newContext();
-    const setupPage = await setupContext.newPage();
-    const loginPage = new LoginPage(setupPage);
-    await loginPage.goto();
-    await loginPage.login(
-      process.env.ADMIN_EMAIL!,
-      process.env.ADMIN_PASSWORD!
-    );
-    
-    await setupContext.storageState({ path: storageStatePath });
-    await setupContext.close();
-    
-    // Provide authenticated page to tests
-    const context = await browser.newContext({
-      storageState: storageStatePath,
-    });
-    const page = await context.newPage();
-    
-    await use(page);
-    await context.close();
-  },
+test('home page has expected title', async ({ page }) => {
+  await page.goto('https://example.com');
+  await expect(page).toHaveTitle(/Example Domain/);
+  await expect(page.getByRole('heading', { name: 'Example Domain' })).toBeVisible();
 });
 ```
 
-**Benefits:**
-- Avoid repeated login in every test
-- Faster test execution
-- Clean separation of setup and test logic
-- Reusable across multiple tests
+## Expected Output
 
-### 3. Test Organization with Setup Tests
+```text
+1 passed
+HTML report generated in playwright-report/
+```
 
-**How It Works:**
-```typescript
-// tests/auth.setup.ts - Create and save authentication state
-setup("Create Customer 1 Authentication", async ({ page, context }) => {
-  const email = process.env.CUSTOMER_1_EMAIL || "";
-  const password = process.env.CUSTOMER_1_PASSWORD || "";
-  const customer1AuthFile = ".auth/customer1StorageState.json";
-  
-  const loginPage = new LoginPage(page);
-  await loginPage.gotoHome();
-  await loginPage.navMenuSignIn.click();
-  await loginPage.login(email, password);
-  
-  // Verify and save authentication
-  await expect(loginPage.navMenu).toContainText("Jane Doe");
-  await context.storageState({ path: customer1AuthFile });
+## Expected Result
+
+Playwright launches a browser, opens the target page, validates the page title, validates the heading, and records the test result.
+
+## Key Takeaways
+
+- `npm init playwright@latest` scaffolds a Playwright project.
+- `npx playwright install` downloads browser engines.
+- Playwright tests are asynchronous and use `await`.
+- `expect()` provides web-first assertions that auto-wait.
+
+---
+
+# 2. Advanced Selectors and Handling Dynamic Content
+
+## Module Details
+
+This module covers robust locator strategy. The preferred approach is to use Playwright's accessibility-first locators such as `getByRole`, `getByLabel`, `getByText`, `getByPlaceholder`, `getByAltText`, `getByTitle`, and `getByTestId`. Fallback selectors such as CSS, XPath, and text-based selectors should be used only when the application does not expose accessible roles, labels, or stable test IDs.
+
+Dynamic content should be handled with Playwright auto-waiting, locator assertions, and targeted custom waits only when necessary. This module also includes dialogs, iframes, nested frames, and Shadow DOM.
+
+## Accessible Locators
+
+```ts
+import { test, expect } from '@playwright/test';
+
+test('uses accessible getBy locators', async ({ page }) => {
+  await page.goto('/login');
+
+  await page.getByLabel('Email').fill('customer@example.com');
+  await page.getByLabel('Password').fill('Password123!');
+  await page.getByRole('button', { name: 'Sign in' }).click();
+
+  await expect(page.getByRole('heading', { name: 'My Account' })).toBeVisible();
 });
 ```
 
-### 4. Using Page Objects in Tests
+## Fallback Selectors
 
-**How It Works:**
-```typescript
-// tests/product.spec.ts - Clean, readable test using page objects
-test("Add product to cart", async ({ page }) => {
-  const productPage = new ProductPage(page);
-  
-  // Navigate
-  await productPage.gotoHome();
-  await productPage.selectCategory("Hand Tools");
-  await productPage.clickProductByIndex(0);
-  
-  // Verify product information
-  await expect(productPage.productName).toHaveText("Combination Pliers");
-  
-  // Perform action
-  await productPage.addToCartButton.click();
-  
-  // Verify success
-  await expect(productPage.addedToCartMessage).toHaveText(
-    "Product added to shopping cart."
-  );
-  
-  // Wait for message to disappear
-  await expect(productPage.addedToCartMessage).not.toBeVisible({
-    timeout: 10000,
+```ts
+test('uses fallback selectors only when necessary', async ({ page }) => {
+  await page.goto('/products');
+
+  await page.locator('[data-test="product-card"]').first().click();
+  await page.locator('css=.cart-button').click();
+  await page.locator('//button[contains(., "Checkout")]').click();
+
+  await expect(page.getByRole('heading', { name: 'Checkout' })).toBeVisible();
+});
+```
+
+## Dynamic Content and Custom Waits
+
+```ts
+test('waits for dynamic search results', async ({ page }) => {
+  await page.goto('/search');
+
+  await page.getByPlaceholder('Search products').fill('laptop');
+  await page.getByRole('button', { name: 'Search' }).click();
+
+  const results = page.getByTestId('search-result');
+  await expect(results.first()).toBeVisible();
+  await expect(results).toHaveCount(5);
+});
+```
+
+## Dialogs and Confirmations
+
+```ts
+test('handles confirmation dialog', async ({ page }) => {
+  await page.goto('/account');
+
+  page.on('dialog', async dialog => {
+    expect(dialog.message()).toContain('Are you sure');
+    await dialog.accept();
   });
-  
-  // Verify cart updated
-  await expect(productPage.navCartQuantity).toHaveText("1");
+
+  await page.getByRole('button', { name: 'Delete account' }).click();
+  await expect(page.getByText('Account deleted')).toBeVisible();
 });
 ```
 
-**Benefits:**
-- Tests read like business requirements
-- No implementation details visible
-- Easy to understand what's being tested
-- Simple to maintain and modify
+## Iframes and Nested Frames
 
-### 5. Configuration-Driven Testing
+```ts
+test('interacts with iframe payment form', async ({ page }) => {
+  await page.goto('/checkout');
 
-**How It Works:**
-```typescript
-// playwright.config.ts - Centralized configuration
+  const paymentFrame = page.frameLocator('iframe[name="payment"]');
+  await paymentFrame.getByLabel('Card number').fill('4111111111111111');
+  await paymentFrame.getByLabel('Expiration').fill('12/30');
+  await paymentFrame.getByLabel('CVC').fill('123');
+
+  await page.getByRole('button', { name: 'Pay now' }).click();
+  await expect(page.getByText('Payment submitted')).toBeVisible();
+});
+```
+
+## Shadow DOM
+
+```ts
+test('handles shadow dom component', async ({ page }) => {
+  await page.goto('/components');
+
+  await page.locator('custom-search').getByPlaceholder('Search').fill('tablet');
+  await page.locator('custom-search').getByRole('button', { name: 'Submit' }).click();
+
+  await expect(page.getByText('Search submitted')).toBeVisible();
+});
+```
+
+## Expected Result
+
+The tests locate elements using stable, user-facing selectors first, handle dynamic UI without brittle sleeps, interact with dialogs, operate inside frames, and test Shadow DOM components.
+
+## Key Takeaways
+
+- Prefer `getByRole`, `getByLabel`, and other accessibility locators.
+- Use CSS/XPath only as fallback strategies.
+- Avoid fixed waits such as `waitForTimeout()` unless troubleshooting.
+- Use `frameLocator()` for iframe workflows.
+- Playwright pierces open Shadow DOM automatically through locators.
+
+---
+
+# 3. Browser-Agnostic Testing Across Chromium, Firefox, and WebKit
+
+## Module Details
+
+This module validates that the same tests work across Chromium, Firefox, and WebKit. Browser-agnostic testing catches compatibility problems before users encounter them. It also requires understanding browser-specific behavior, project configuration, and debugging cross-browser failures.
+
+## Multi-Browser Configuration
+
+```ts
+import { defineConfig, devices } from '@playwright/test';
+
 export default defineConfig({
-  testDir: "./tests",
-  fullyParallel: true,
+  testDir: './tests',
   retries: process.env.CI ? 2 : 0,
-  workers: process.env.CI ? 1 : undefined,
-  
+  reporter: [['html'], ['list']],
   use: {
-    trace: "on",
-    baseURL: process.env.BASE_URL || "https://practicesoftwaretesting.com",
-    testIdAttribute: "data-test",
-    headless: true,
-    video: "retain-on-failure",
-    screenshot: "only-on-failure",
+    baseURL: 'https://example.com',
+    trace: 'on-first-retry'
   },
-  
   projects: [
-    {
-      name: "setup",
-      testMatch: /.*\.setup\.ts/,
-    },
-    {
-      name: "customer1-chromium",
-      dependencies: ["setup"],
-      use: {
-        ...devices["Desktop Chrome"],
-        storageState: ".auth/customer1StorageState.json",
-      },
-    },
-  ],
+    { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
+    { name: 'firefox', use: { ...devices['Desktop Firefox'] } },
+    { name: 'webkit', use: { ...devices['Desktop Safari'] } }
+  ]
 });
 ```
 
-**Benefits:**
-- Single source of truth for configuration
-- Easy to adjust for different environments
-- Supports multiple browser/device combinations
-- CI/CD optimizations built-in
+## Cross-Browser Test
 
----
+```ts
+import { test, expect } from '@playwright/test';
 
-## REST API Automation Guide
+test('product page works across browsers', async ({ page, browserName }) => {
+  await page.goto('/products');
 
-### Introduction
+  await expect(page.getByRole('heading', { name: 'Products' })).toBeVisible();
+  await page.getByTestId('product-card').first().click();
+  await expect(page.getByRole('button', { name: 'Add to cart' })).toBeVisible();
 
-While Playwright is primarily a browser automation tool, it also supports HTTP API testing through the `APIRequestContext`. This guide shows how to automate REST API testing.
-
-### 1. Basic API Request Setup
-
-```typescript
-import { test, expect } from "@playwright/test";
-
-test("API: Verify product endpoint", async ({ request }) => {
-  // GET request
-  const response = await request.get("/products");
-  
-  // Verify response status
-  expect(response.status()).toBe(200);
-  
-  // Parse and verify JSON response
-  const data = await response.json();
-  expect(data).toHaveProperty("products");
-  expect(Array.isArray(data.products)).toBeTruthy();
+  console.log(`Validated in ${browserName}`);
 });
 ```
 
-### 2. POST Request with Request Body
+## Run Commands
 
-```typescript
-test("API: Create new product", async ({ request }) => {
-  const response = await request.post("/products", {
-    data: {
-      name: "New Product",
-      description: "Product description",
-      price: 99.99,
-      category: "Electronics",
-    },
-  });
-  
-  expect(response.status()).toBe(201);
-  
-  const createdProduct = await response.json();
-  expect(createdProduct).toHaveProperty("id");
-  expect(createdProduct.name).toBe("New Product");
-});
-```
-
-### 3. Authentication in API Tests
-
-```typescript
-test("API: Authenticated endpoint", async ({ request }) => {
-  const response = await request.get("/api/user/profile", {
-    headers: {
-      "Authorization": `Bearer ${process.env.API_TOKEN}`,
-      "Content-Type": "application/json",
-    },
-  });
-  
-  expect(response.status()).toBe(200);
-  const profile = await response.json();
-  expect(profile.id).toBeDefined();
-});
-```
-
-### 4. Handling Request/Response Headers
-
-```typescript
-test("API: Custom headers", async ({ request }) => {
-  const response = await request.get("/api/data", {
-    headers: {
-      "X-Custom-Header": "CustomValue",
-      "Accept-Language": "en-US",
-    },
-  });
-  
-  // Verify response headers
-  expect(response.headers()["content-type"]).toContain("application/json");
-});
-```
-
-### 5. Error Handling and Status Codes
-
-```typescript
-test("API: Handle error responses", async ({ request }) => {
-  const response = await request.get("/api/products/invalid-id");
-  
-  // Don't throw on non-2xx status
-  expect(response.status()).toBe(404);
-  
-  const error = await response.json();
-  expect(error.message).toContain("Not found");
-});
-```
-
-### 6. Combining Browser and API Testing
-
-```typescript
-test("API + UI: Create via API, verify in UI", async ({ page, request }) => {
-  // Create product via API
-  const apiResponse = await request.post("/products", {
-    data: {
-      name: "Test Product",
-      price: 49.99,
-    },
-  });
-  
-  const newProduct = await apiResponse.json();
-  
-  // Verify in UI
-  await page.goto(`/products/${newProduct.id}`);
-  await expect(page.getByText("Test Product")).toBeVisible();
-  await expect(page.getByText("$49.99")).toBeVisible();
-});
-```
-
-### 7. API Test Fixture
-
-```typescript
-// fixtures/api.fixture.ts
-import { test as base } from "@playwright/test";
-
-export const test = base.extend<{ apiRequest: any }>({
-  apiRequest: async ({ request }, use) => {
-    const baseHeaders = {
-      "Authorization": `Bearer ${process.env.API_TOKEN}`,
-      "Content-Type": "application/json",
-    };
-    
-    const api = {
-      get: (url: string) => request.get(url, { headers: baseHeaders }),
-      post: (url: string, data: any) =>
-        request.post(url, { data, headers: baseHeaders }),
-      put: (url: string, data: any) =>
-        request.put(url, { data, headers: baseHeaders }),
-      delete: (url: string) => request.delete(url, { headers: baseHeaders }),
-    };
-    
-    await use(api);
-  },
-});
-
-export { expect } from "@playwright/test";
-```
-
-### 8. Retry Logic for Flaky APIs
-
-```typescript
-test("API: Retry on failure", async ({ request }) => {
-  let response;
-  let retries = 3;
-  
-  while (retries > 0) {
-    response = await request.get("/api/data");
-    
-    if (response.status() === 200) {
-      break;
-    }
-    
-    retries--;
-    await new Promise(resolve => setTimeout(resolve, 1000));
-  }
-  
-  expect(response?.status()).toBe(200);
-});
-```
-
----
-
-## Examples & Tutorials
-
-### Tutorial 1: Setting Up Your First Test
-
-**Step 1: Install Dependencies**
 ```bash
-cd Chapter16/ecom-test-project
-npm install
-npx playwright install
-```
-
-**Step 2: Create Environment File**
-```bash
-# .env file
-CUSTOMER_1_EMAIL=customer@example.com
-CUSTOMER_1_PASSWORD=password123
-ADMIN_EMAIL=admin@example.com
-ADMIN_PASSWORD=admin123
-BASE_URL=https://practicesoftwaretesting.com
-```
-
-**Step 3: Run Tests**
-```bash
-# Run all tests
+npx playwright test --project=chromium
+npx playwright test --project=firefox
+npx playwright test --project=webkit
 npx playwright test
-
-# Run in headed mode (see browser)
-npx playwright test --headed
-
-# Run specific test file
-npx playwright test product.spec.ts
-
-# Run tests matching pattern
-npx playwright test --grep "Add product"
-
-# View detailed HTML report
-npx playwright show-report
 ```
 
-### Tutorial 2: Creating a New Page Object
+## Expected Output
 
-```typescript
-// pages/cart.page.ts
-import { Locator, Page } from "@playwright/test";
-import { BasePage } from "./base.page";
+```text
+chromium  passed
+firefox   passed
+webkit    passed
+```
 
-export class CartPage extends BasePage {
-  readonly cartItems: Locator;
-  readonly cartTotal: Locator;
-  readonly checkoutButton: Locator;
-  
-  constructor(page: Page) {
-    super(page);
-    this.cartItems = page.locator(".cart-item");
-    this.cartTotal = page.getByTestId("cart-total");
-    this.checkoutButton = page.getByTestId("checkout");
-  }
-  
+## Expected Result
+
+The same test suite runs across all configured browser engines and exposes any browser-specific failures.
+
+## Key Takeaways
+
+- Configure browsers as Playwright projects.
+- Use `browserName` to log or branch only when absolutely necessary.
+- Avoid browser-specific selectors and timing assumptions.
+- Debug failures per browser using traces, screenshots, and headed mode.
+
+---
+
+# 4. AI-Powered Test Generation
+
+## Module Details
+
+This module covers AI-assisted Playwright test generation. Playwright Codegen can generate scripts by recording interactions. AI assistants such as Copilot can help draft test cases, create page objects, and generate assertions. Generated tests should always be reviewed, refactored, and hardened with resilient locators and clear assertions.
+
+## Codegen Command
+
+```bash
+npx playwright codegen https://example.com
+```
+
+## Codegen-Style Output
+
+```ts
+import { test, expect } from '@playwright/test';
+
+test('recorded login flow', async ({ page }) => {
+  await page.goto('https://example.com/login');
+  await page.getByLabel('Email').click();
+  await page.getByLabel('Email').fill('customer@example.com');
+  await page.getByLabel('Password').fill('Password123!');
+  await page.getByRole('button', { name: 'Sign in' }).click();
+  await expect(page.getByRole('heading', { name: 'Dashboard' })).toBeVisible();
+});
+```
+
+## Prompt for AI-Generated Test Refinement
+
+```text
+Refactor this Playwright test into a TypeScript Page Object Model.
+Use getByRole/getByLabel locators where possible.
+Add meaningful assertions after each major action.
+Avoid waitForTimeout.
+Make test data configurable through environment variables.
+```
+
+## Refined Page Object Example
+
+```ts
+import { Page, expect } from '@playwright/test';
+
+export class LoginPage {
+  constructor(private readonly page: Page) {}
+
   async goto() {
-    await this.page.goto("/cart");
+    await this.page.goto('/login');
+    await expect(this.page.getByRole('heading', { name: 'Sign in' })).toBeVisible();
   }
-  
-  async getItemCount() {
-    return await this.cartItems.count();
-  }
-  
-  async getTotalPrice() {
-    const totalText = await this.cartTotal.textContent();
-    return parseFloat(totalText?.replace(/[^\d.]/g, "") || "0");
-  }
-  
-  async proceedToCheckout() {
-    await this.checkoutButton.click();
+
+  async login(email: string, password: string) {
+    await this.page.getByLabel('Email').fill(email);
+    await this.page.getByLabel('Password').fill(password);
+    await this.page.getByRole('button', { name: 'Sign in' }).click();
   }
 }
 ```
 
-### Tutorial 3: Writing Your First Test
+## Expected Result
 
-```typescript
-// tests/cart.spec.ts
-import { test, expect } from "@playwright/test";
-import { CartPage } from "../pages/cart.page";
-import { ProductPage } from "../pages/product.page";
+Generated scripts are converted into maintainable test code with strong locators, reusable page objects, and meaningful assertions.
 
-test("Complete shopping flow", async ({ page }) => {
-  // Initialize page objects
-  const productPage = new ProductPage(page);
-  const cartPage = new CartPage(page);
-  
-  // Browse products
-  await productPage.gotoHome();
-  await productPage.selectCategory("Hand Tools");
-  await productPage.clickProductByIndex(0);
-  await productPage.addToCartButton.click();
-  
-  // View cart
-  await cartPage.goto();
-  expect(await cartPage.getItemCount()).toBe(1);
-  
-  // Verify total
-  const total = await cartPage.getTotalPrice();
-  expect(total).toBeGreaterThan(0);
-  
-  // Proceed to checkout
-  await cartPage.proceedToCheckout();
-  await expect(page).toHaveURL(/.*checkout/);
-});
-```
+## Key Takeaways
 
-### Tutorial 4: Using Test Data Factories
-
-```typescript
-// data/productFactory.ts
-import { faker } from "@faker-js/faker";
-
-export const createProductData = () => ({
-  name: faker.commerce.productName(),
-  description: faker.commerce.productDescription(),
-  price: parseFloat(faker.commerce.price()),
-  category: faker.commerce.department(),
-  inStock: faker.datatype.boolean(),
-});
-
-// Usage in test
-import { createProductData } from "../data/productFactory";
-
-test("Create product with fake data", async ({ request }) => {
-  const productData = createProductData();
-  
-  const response = await request.post("/products", {
-    data: productData,
-  });
-  
-  expect(response.status()).toBe(201);
-  const created = await response.json();
-  expect(created.name).toBe(productData.name);
-});
-```
+- Codegen is useful for discovery, not final framework design.
+- AI-generated code must be reviewed before committing.
+- Replace brittle selectors with accessible locators.
+- Add assertions that prove business behavior.
+- Keep generated code clean, typed, and maintainable.
 
 ---
 
-## Tips & Best Practices
+# 5. Crafting Scalable Tests with the Fixture System
 
-### 1. **Use Test IDs Instead of Selectors**
-```typescript
-// ✅ GOOD - Resilient to UI changes
-const element = page.getByTestId("product-name");
+## Module Details
 
-// ❌ AVOID - Breaks with CSS changes
-const element = page.locator("div.product > h1.title");
-```
+Fixtures are Playwright's dependency injection system. Built-in fixtures include `page`, `context`, `browser`, `request`, and `browserName`. Custom fixtures can provide page objects, authenticated users, test data, API clients, and environment-specific objects.
 
-### 2. **Wait Intelligently**
-```typescript
-// ✅ GOOD - Wait for specific element
-await expect(page.getByText("Success")).toBeVisible();
+## Custom Fixture Example
 
-// ❌ AVOID - Fixed waits
-await page.waitForTimeout(3000);
-```
+```ts
+import { test as base, expect, Page } from '@playwright/test';
 
-### 3. **Test from User Perspective**
-```typescript
-// ✅ GOOD - User-centric selectors
-await page.getByLabel("Email").fill("test@example.com");
-await page.getByRole("button", { name: "Login" }).click();
+class ProductsPage {
+  constructor(private readonly page: Page) {}
 
-// ❌ AVOID - Implementation details
-await page.locator("input#email_field_23").fill("test@example.com");
-await page.locator("button.btn-primary.large").click();
-```
+  async goto() {
+    await this.page.goto('/products');
+  }
 
-### 4. **Handle Dynamic Content**
-```typescript
-// Use proper wait strategies
-await page.waitForLoadState("networkidle");
-await page.waitForSelector(".product-card", { state: "visible" });
-await expect(page.locator(".product-card")).toHaveCount(10);
-```
+  async addFirstProductToCart() {
+    await this.page.getByTestId('product-card').first().getByRole('button', { name: 'Add to cart' }).click();
+  }
+}
 
-### 5. **Keep Tests Independent**
-```typescript
-// ✅ GOOD - Each test stands alone
-test("User can add product to cart", async ({ page }) => {
-  await page.goto("/");
-  // Complete flow in single test
+type Fixtures = {
+  productsPage: ProductsPage;
+};
+
+export const test = base.extend<Fixtures>({
+  productsPage: async ({ page }, use) => {
+    await use(new ProductsPage(page));
+  }
 });
 
-// ❌ AVOID - Dependencies between tests
-test.describe.serial("Workflow", () => {
-  test("First", () => { /* setup */ });
-  test("Second", () => { /* depends on First */ });
+export { expect };
+```
+
+## Test Using Custom Fixture
+
+```ts
+import { test, expect } from '../fixtures/test.fixtures';
+
+test('customer can add product to cart', async ({ productsPage, page }) => {
+  await productsPage.goto();
+  await productsPage.addFirstProductToCart();
+
+  await expect(page.getByTestId('cart-count')).toHaveText('1');
 });
 ```
 
-### 6. **Use Meaningful Test Names**
-```typescript
-// ✅ GOOD
-test("Verify user receives error message when submitting form with invalid email", () => {});
+## Worker-Scoped Fixture Example
 
-// ❌ AVOID
-test("Test form", () => {});
-```
+```ts
+import { test as base } from '@playwright/test';
 
-### 7. **Leverage Parallelization**
-```typescript
-// Tests run in parallel by default in Playwright
-// Control with:
-test.describe.serial("Sequential tests", () => {
-  test("First", () => {});
-  test("Second", () => {});
-});
+type WorkerFixtures = {
+  apiToken: string;
+};
 
-test.describe("Parallel tests", () => {
-  test("First", () => {});
-  test("Second", () => {});
+export const test = base.extend<{}, WorkerFixtures>({
+  apiToken: [async ({}, use) => {
+    const token = process.env.API_TOKEN ?? 'demo-token';
+    await use(token);
+  }, { scope: 'worker' }]
 });
 ```
 
-### 8. **Debug Failing Tests**
+## Expected Result
+
+Fixtures reduce repeated setup, improve test readability, and make common dependencies available across test files.
+
+## Key Takeaways
+
+- Fixtures provide reusable setup and teardown.
+- Test-scoped fixtures run per test.
+- Worker-scoped fixtures run per worker.
+- Custom fixtures are ideal for page objects, auth, API clients, and test data.
+
+---
+
+# 6. Test Parallelization and Performance Optimization
+
+## Module Details
+
+Playwright can run tests in parallel across workers. Parallelization improves feedback speed, but it requires isolated test data, independent tests, controlled resources, and stable environments. This module covers worker configuration, project-level parallelism, sharding, retries, and performance monitoring.
+
+## Configuration Example
+
+```ts
+import { defineConfig } from '@playwright/test';
+
+export default defineConfig({
+  fullyParallel: true,
+  workers: process.env.CI ? 4 : undefined,
+  retries: process.env.CI ? 2 : 0,
+  timeout: 30_000,
+  expect: { timeout: 5_000 },
+  use: {
+    trace: 'on-first-retry',
+    screenshot: 'only-on-failure',
+    video: 'retain-on-failure'
+  }
+});
+```
+
+## Parallel-Safe Test Data
+
+```ts
+import { test, expect } from '@playwright/test';
+import { faker } from '@faker-js/faker';
+
+test('registers a unique user', async ({ page }) => {
+  const email = faker.internet.email().toLowerCase();
+
+  await page.goto('/register');
+  await page.getByLabel('Email').fill(email);
+  await page.getByLabel('Password').fill('Password123!');
+  await page.getByRole('button', { name: 'Create account' }).click();
+
+  await expect(page.getByText(email)).toBeVisible();
+});
+```
+
+## Sharding Commands
+
 ```bash
-# Run with inspector
-npx playwright test --debug
-
-# Run single test with headed mode
-npx playwright test --headed product.spec.ts
-
-# Generate trace for analysis
-npx playwright test --trace on
-
-# View trace
-npx playwright show-trace trace.zip
+npx playwright test --shard=1/3
+npx playwright test --shard=2/3
+npx playwright test --shard=3/3
 ```
 
-### 9. **Handle Timeouts Properly**
-```typescript
-test("Operation with extended timeout", async ({ page }) => {
-  // Custom timeout for specific action
-  await expect(page.getByText("Loading...")).not.toBeVisible({
-    timeout: 30000, // 30 seconds
-  });
-  
-  // Or set global timeout in config
-  // expect.setDefaultTimeout(15000);
+## Expected Result
+
+Tests run faster while remaining isolated and reliable.
+
+## Key Takeaways
+
+- Parallel tests must not share mutable state.
+- Use unique data to avoid collisions.
+- Retries should expose flakiness, not hide broken tests.
+- Sharding helps large suites scale across CI jobs.
+
+---
+
+# 7. Integrating Workflows with CI/CD Pipelines
+
+## Module Details
+
+This module integrates Playwright with CI/CD. It covers GitHub Actions, installing dependencies, installing browsers, running tests, uploading reports, retaining artifacts, running browser/OS matrices, and using Docker for consistent execution.
+
+## GitHub Actions Workflow
+
+```yaml
+name: Playwright Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [chromium, firefox, webkit]
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm ci
+      - run: npx playwright install --with-deps
+      - run: npx playwright test --project=${{ matrix.browser }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report-${{ matrix.browser }}
+          path: playwright-report/
+          retention-days: 7
+```
+
+## Docker Command
+
+```bash
+docker run --rm -v $PWD:/work -w /work mcr.microsoft.com/playwright:v1.55.0-jammy npm test
+```
+
+## Expected Output
+
+```text
+npm ci completed
+Playwright browsers installed
+chromium passed
+firefox passed
+webkit passed
+HTML report uploaded as artifact
+```
+
+## Expected Result
+
+CI runs Playwright tests automatically and preserves reports for debugging.
+
+## Key Takeaways
+
+- CI should run the same command developers run locally.
+- Upload reports, traces, screenshots, and videos as artifacts.
+- Matrix builds validate multiple browsers.
+- Docker provides consistent runtime dependencies.
+
+---
+
+# 8. Headless Testing and Debugging
+
+## Module Details
+
+Playwright runs headless by default in CI and can run headful locally for debugging. This module covers Inspector, UI Mode, trace viewer, screenshots, videos, and debug-friendly commands.
+
+## Debug Commands
+
+```bash
+npx playwright test --headed
+npx playwright test --debug
+npx playwright test --ui
+npx playwright show-trace test-results/trace.zip
+```
+
+## Debug Configuration
+
+```ts
+import { defineConfig } from '@playwright/test';
+
+export default defineConfig({
+  use: {
+    headless: process.env.HEADED ? false : true,
+    screenshot: 'only-on-failure',
+    video: 'retain-on-failure',
+    trace: 'retain-on-failure'
+  }
 });
 ```
 
-### 10. **Mobile Testing**
-```typescript
-import { devices } from "@playwright/test";
+## Screenshot on Demand
+
+```ts
+import { test } from '@playwright/test';
+
+test('captures checkout state', async ({ page }) => {
+  await page.goto('/checkout');
+  await page.screenshot({ path: 'test-results/checkout-page.png', fullPage: true });
+});
+```
+
+## Expected Result
+
+Failed tests generate screenshots, videos, and traces that can be reviewed locally or in CI artifacts.
+
+## Key Takeaways
+
+- Use headless mode in CI for speed.
+- Use headed/debug/UI mode when developing or troubleshooting.
+- Traces are the most complete debugging artifact.
+- Screenshots and videos help document failure state.
+
+---
+
+# 9. Accessibility Testing with Playwright and axe-core
+
+## Module Details
+
+Accessibility testing validates whether pages follow accessibility rules such as labels, landmarks, color contrast, keyboard support, and ARIA usage. Automated tools such as axe-core can catch many issues, but manual testing is still required for keyboard flow, screen reader quality, and usability.
+
+## Installation
+
+```bash
+npm install -D @axe-core/playwright
+```
+
+## Accessibility Test
+
+```ts
+import { test, expect } from '@playwright/test';
+import AxeBuilder from '@axe-core/playwright';
+
+test('home page has no critical accessibility violations', async ({ page }) => {
+  await page.goto('/');
+
+  const results = await new AxeBuilder({ page })
+    .withTags(['wcag2a', 'wcag2aa', 'wcag21aa'])
+    .analyze();
+
+  const criticalViolations = results.violations.filter(v => v.impact === 'critical');
+  expect(criticalViolations).toEqual([]);
+});
+```
+
+## Targeted Accessibility Scan
+
+```ts
+test('checkout form is accessible', async ({ page }) => {
+  await page.goto('/checkout');
+
+  const results = await new AxeBuilder({ page })
+    .include('[data-test="checkout-form"]')
+    .analyze();
+
+  expect(results.violations).toEqual([]);
+});
+```
+
+## Expected Result
+
+The test fails if axe-core finds accessibility violations matching the configured scope and severity.
+
+## Key Takeaways
+
+- Automated accessibility tests catch many WCAG issues.
+- Use `getByRole` and `getByLabel` to encourage accessible markup.
+- Include targeted scans for forms and critical workflows.
+- Manual accessibility testing remains necessary.
+
+---
+
+# 10. Setting Up Visual Regression Testing
+
+## Module Details
+
+Visual regression testing compares screenshots against approved baselines. It helps catch layout shifts, styling regressions, missing images, responsive issues, and unintended UI changes. Stable visual tests require controlled data, deterministic viewport sizes, disabled animations when appropriate, and acceptable thresholds.
+
+## Visual Test Example
+
+```ts
+import { test, expect } from '@playwright/test';
+
+test('product card visual baseline', async ({ page }) => {
+  await page.goto('/products');
+
+  const productCard = page.getByTestId('product-card').first();
+  await expect(productCard).toHaveScreenshot('product-card.png');
+});
+```
+
+## Full Page Screenshot Comparison
+
+```ts
+test('home page visual baseline', async ({ page }) => {
+  await page.goto('/');
+  await expect(page).toHaveScreenshot('home-page.png', {
+    fullPage: true,
+    maxDiffPixelRatio: 0.01
+  });
+});
+```
+
+## Disable Animations for Stable Screenshots
+
+```ts
+test.beforeEach(async ({ page }) => {
+  await page.addStyleTag({
+    content: `
+      *, *::before, *::after {
+        animation-duration: 0s !important;
+        transition-duration: 0s !important;
+      }
+    `
+  });
+});
+```
+
+## Expected Output
+
+```text
+Snapshot written on first run
+Later runs compare against baseline
+Test fails if visual difference exceeds threshold
+```
+
+## Key Takeaways
+
+- Keep visual tests stable and deterministic.
+- Use component-level screenshots for less flaky checks.
+- Control animations, dates, ads, random content, and test data.
+- Review visual diffs before updating baselines.
+
+---
+
+# 11. Testing Mobile Web Experiences
+
+## Module Details
+
+Playwright can emulate mobile browsers using predefined device profiles. Mobile web tests should validate viewport behavior, touch interactions, responsive navigation, mobile menus, geolocation, permissions, and device-specific bugs. Emulation is valuable but does not fully replace real-device testing.
+
+## Mobile Project Configuration
+
+```ts
+import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
   projects: [
-    { name: "chromium", use: { ...devices["Desktop Chrome"] } },
-    { name: "mobile", use: { ...devices["iPhone 12"] } },
-    { name: "tablet", use: { ...devices["iPad Pro"] } },
-  ],
+    {
+      name: 'Mobile Chrome',
+      use: { ...devices['Pixel 7'] }
+    },
+    {
+      name: 'Mobile Safari',
+      use: { ...devices['iPhone 14'] }
+    }
+  ]
 });
 ```
 
-### 11. **Visual Regression Testing**
-```typescript
-test("Product page layout", async ({ page }) => {
-  await page.goto("/products/123");
-  
-  // Take screenshot for comparison
-  await expect(page).toHaveScreenshot("product-page.png");
-});
+## Mobile Navigation Test
 
-// Run with:
-// npx playwright test --update-snapshots
-```
+```ts
+import { test, expect } from '@playwright/test';
 
-### 12. **Environment-Specific Testing**
-```typescript
-const baseURL = process.env.ENV === "staging"
-  ? "https://staging.example.com"
-  : "https://production.example.com";
+test('mobile menu opens and navigates', async ({ page }) => {
+  await page.goto('/');
 
-test("Cross-environment test", async ({ page }) => {
-  await page.goto(baseURL);
-  // Test runs on configured URL
+  await page.getByRole('button', { name: 'Open menu' }).tap();
+  await page.getByRole('link', { name: 'Products' }).tap();
+
+  await expect(page).toHaveURL(/products/);
+  await expect(page.getByRole('heading', { name: 'Products' })).toBeVisible();
 });
 ```
+
+## Geolocation Example
+
+```ts
+import { test, expect } from '@playwright/test';
+
+test.use({
+  geolocation: { latitude: 27.9506, longitude: -82.4572 },
+  permissions: ['geolocation']
+});
+
+test('store locator uses geolocation', async ({ page }) => {
+  await page.goto('/stores');
+  await page.getByRole('button', { name: 'Use my location' }).click();
+  await expect(page.getByText(/nearest store/i)).toBeVisible();
+});
+```
+
+## Expected Result
+
+Mobile tests validate responsive layout, touch interaction, mobile browser behavior, and location-based workflows.
+
+## Key Takeaways
+
+- Emulation is fast and useful for CI.
+- Real-device testing is still needed for final confidence.
+- Test mobile navigation and viewport-specific elements.
+- Use device projects for repeatable mobile coverage.
 
 ---
 
-## Running Tests
+# 12. Testing Forms
 
-### Basic Commands
+## Module Details
+
+Forms are common sources of defects. This module covers text inputs, dropdowns, checkboxes, radio buttons, date pickers, custom fields, validation logic, error messages, success messages, and data persistence.
+
+## Form Input Test
+
+```ts
+import { test, expect } from '@playwright/test';
+
+test('submits contact form', async ({ page }) => {
+  await page.goto('/contact');
+
+  await page.getByLabel('Full name').fill('Brian McCarthy');
+  await page.getByLabel('Email').fill('brian@example.com');
+  await page.getByLabel('Message').fill('Testing contact form with Playwright.');
+  await page.getByRole('button', { name: 'Send message' }).click();
+
+  await expect(page.getByText('Message sent successfully')).toBeVisible();
+});
+```
+
+## Dropdowns, Checkboxes, and Radio Buttons
+
+```ts
+test('fills preferences form', async ({ page }) => {
+  await page.goto('/preferences');
+
+  await page.getByLabel('Country').selectOption('US');
+  await page.getByLabel('Subscribe to updates').check();
+  await page.getByLabel('Email notifications').check();
+  await page.getByRole('button', { name: 'Save preferences' }).click();
+
+  await expect(page.getByText('Preferences saved')).toBeVisible();
+});
+```
+
+## Validation Test
+
+```ts
+test('shows validation errors for invalid form', async ({ page }) => {
+  await page.goto('/register');
+
+  await page.getByRole('button', { name: 'Create account' }).click();
+
+  await expect(page.getByText('Email is required')).toBeVisible();
+  await expect(page.getByText('Password is required')).toBeVisible();
+});
+```
+
+## Expected Result
+
+The tests verify successful submission and validation behavior for required fields and invalid inputs.
+
+## Key Takeaways
+
+- Use labels for accessible form interaction.
+- Test positive and negative form paths.
+- Validate error messages, not only button clicks.
+- Include custom controls and date picker workflows where applicable.
+
+---
+
+# 13. Handling File Uploads and Downloads
+
+## Module Details
+
+This module covers upload inputs, drag-and-drop style workflows, download events, file validation, and cleanup. File workflows should verify file name, extension, file contents when relevant, and whether the UI confirms upload/download success.
+
+## File Upload Test
+
+```ts
+import { test, expect } from '@playwright/test';
+import path from 'path';
+
+test('uploads product image', async ({ page }) => {
+  await page.goto('/admin/products/new');
+
+  const filePath = path.join(process.cwd(), 'test-data', 'product-image.png');
+  await page.getByLabel('Product image').setInputFiles(filePath);
+
+  await expect(page.getByText('product-image.png')).toBeVisible();
+});
+```
+
+## File Download Test
+
+```ts
+test('downloads invoice PDF', async ({ page }) => {
+  await page.goto('/orders/123');
+
+  const downloadPromise = page.waitForEvent('download');
+  await page.getByRole('link', { name: 'Download invoice' }).click();
+  const download = await downloadPromise;
+
+  expect(download.suggestedFilename()).toContain('invoice');
+  await download.saveAs(`test-results/${download.suggestedFilename()}`);
+});
+```
+
+## Multiple File Upload
+
+```ts
+test('uploads multiple attachments', async ({ page }) => {
+  await page.goto('/support');
+
+  await page.getByLabel('Attachments').setInputFiles([
+    'test-data/error-log.txt',
+    'test-data/screenshot.png'
+  ]);
+
+  await expect(page.getByText('2 files selected')).toBeVisible();
+});
+```
+
+## Expected Result
+
+Upload tests confirm that selected files are accepted by the app. Download tests confirm that the expected file is produced and saved as a test artifact.
+
+## Key Takeaways
+
+- Use `setInputFiles()` for file uploads.
+- Use `page.waitForEvent('download')` before clicking download links.
+- Clean up generated files in CI.
+- Validate file names and important file content when possible.
+
+---
+
+# 14. Security and Authentication
+
+## Module Details
+
+Authentication tests validate login, logout, session persistence, user role behavior, protected routes, and secure test credential handling. Playwright storage states allow authentication reuse so every test does not need to log in through the UI.
+
+## Environment Variables
+
+```env
+BASE_URL=https://example.com
+CUSTOMER_EMAIL=customer@example.com
+CUSTOMER_PASSWORD=Password123!
+ADMIN_EMAIL=admin@example.com
+ADMIN_PASSWORD=Password123!
+```
+
+## Authentication Setup
+
+```ts
+import { test as setup, expect } from '@playwright/test';
+
+setup('authenticate customer', async ({ page }) => {
+  await page.goto('/login');
+  await page.getByLabel('Email').fill(process.env.CUSTOMER_EMAIL!);
+  await page.getByLabel('Password').fill(process.env.CUSTOMER_PASSWORD!);
+  await page.getByRole('button', { name: 'Sign in' }).click();
+
+  await expect(page.getByRole('heading', { name: 'My Account' })).toBeVisible();
+  await page.context().storageState({ path: 'storage-states/customer.json' });
+});
+```
+
+## Authenticated Project Configuration
+
+```ts
+import { defineConfig } from '@playwright/test';
+
+export default defineConfig({
+  projects: [
+    { name: 'setup', testMatch: /.*\.setup\.ts/ },
+    {
+      name: 'customer',
+      dependencies: ['setup'],
+      use: { storageState: 'storage-states/customer.json' }
+    }
+  ]
+});
+```
+
+## Role-Based Test
+
+```ts
+import { test, expect } from '@playwright/test';
+
+test('customer cannot access admin dashboard', async ({ page }) => {
+  await page.goto('/admin');
+  await expect(page.getByText('Access denied')).toBeVisible();
+});
+```
+
+## Expected Result
+
+Authentication is performed once during setup, session state is reused, and role-based access is validated safely.
+
+## Key Takeaways
+
+- Store secrets in environment variables or CI secrets.
+- Do not commit real credentials or sensitive storage states.
+- Use storage state to speed up authenticated tests.
+- Test login, logout, expired sessions, and role restrictions.
+
+---
+
+# 15. Best Practices for Test Maintainability
+
+## Module Details
+
+Maintainable tests are readable, stable, isolated, and organized. This module covers Page Object Model, test data factories, reusable utilities, clear assertions, naming conventions, locator strategy, and avoiding anti-patterns.
+
+## Page Object Model Example
+
+```ts
+import { Page, expect } from '@playwright/test';
+
+export class ProductPage {
+  constructor(private readonly page: Page) {}
+
+  async goto() {
+    await this.page.goto('/products');
+    await expect(this.page.getByRole('heading', { name: 'Products' })).toBeVisible();
+  }
+
+  async addProductToCartByName(productName: string) {
+    const product = this.page.getByTestId('product-card').filter({ hasText: productName });
+    await product.getByRole('button', { name: 'Add to cart' }).click();
+  }
+
+  async expectCartCount(count: number) {
+    await expect(this.page.getByTestId('cart-count')).toHaveText(String(count));
+  }
+}
+```
+
+## Test Using Page Object
+
+```ts
+import { test } from '@playwright/test';
+import { ProductPage } from '../pages/product.page';
+
+test('adds named product to cart', async ({ page }) => {
+  const products = new ProductPage(page);
+
+  await products.goto();
+  await products.addProductToCartByName('Wireless Mouse');
+  await products.expectCartCount(1);
+});
+```
+
+## Test Data Factory
+
+```ts
+import { faker } from '@faker-js/faker';
+
+export function createUser() {
+  return {
+    firstName: faker.person.firstName(),
+    lastName: faker.person.lastName(),
+    email: faker.internet.email().toLowerCase(),
+    password: 'Password123!'
+  };
+}
+```
+
+## Expected Result
+
+Tests become shorter, locators are centralized, test data is repeatable, and UI changes are easier to maintain.
+
+## Key Takeaways
+
+- Page objects should model user actions, not every DOM detail.
+- Keep assertions meaningful and close to behavior.
+- Avoid brittle selectors and fixed waits.
+- Use factories for unique, realistic test data.
+
+---
+
+# 16. Real-World Project - Testing an E-Commerce Website
+
+## Module Details
+
+This module combines the full Playwright framework into a realistic e-commerce automation project. It covers project initialization, project structure, authentication storage states, data factories, product browsing, cart operations, checkout, admin workflows, and bulk user registration for load-style test data preparation.
+
+## E-Commerce Page Objects
+
+```ts
+import { Page, expect } from '@playwright/test';
+
+export class CartPage {
+  constructor(private readonly page: Page) {}
+
+  async goto() {
+    await this.page.goto('/cart');
+  }
+
+  async expectProductInCart(productName: string) {
+    await expect(this.page.getByTestId('cart-item').filter({ hasText: productName })).toBeVisible();
+  }
+
+  async checkout() {
+    await this.page.getByRole('button', { name: 'Checkout' }).click();
+  }
+}
+```
+
+## Product-to-Checkout Test
+
+```ts
+import { test, expect } from '@playwright/test';
+import { ProductPage } from '../pages/product.page';
+import { CartPage } from '../pages/cart.page';
+
+test('customer can add product and start checkout', async ({ page }) => {
+  const products = new ProductPage(page);
+  const cart = new CartPage(page);
+
+  await products.goto();
+  await products.addProductToCartByName('Wireless Mouse');
+  await products.expectCartCount(1);
+
+  await cart.goto();
+  await cart.expectProductInCart('Wireless Mouse');
+  await cart.checkout();
+
+  await expect(page).toHaveURL(/checkout/);
+});
+```
+
+## Bulk User Registration Data Factory
+
+```ts
+import { test, expect } from '@playwright/test';
+import { faker } from '@faker-js/faker';
+
+test('bulk user registration seed', async ({ page }) => {
+  for (let index = 0; index < 5; index++) {
+    const email = faker.internet.email().toLowerCase();
+
+    await page.goto('/register');
+    await page.getByLabel('First name').fill(faker.person.firstName());
+    await page.getByLabel('Last name').fill(faker.person.lastName());
+    await page.getByLabel('Email').fill(email);
+    await page.getByLabel('Password').fill('Password123!');
+    await page.getByRole('button', { name: 'Create account' }).click();
+
+    await expect(page.getByText('Account created')).toBeVisible();
+  }
+});
+```
+
+## Expected Result
+
+The e-commerce suite validates core revenue-critical flows: authentication, product browsing, cart, checkout, admin setup, and reusable test data generation.
+
+## Key Takeaways
+
+- Real projects need structure beyond individual test files.
+- Authentication storage states improve speed.
+- Data factories reduce brittle static test data.
+- E-commerce tests should prioritize critical business flows.
+
+---
+
+# 17. Streamlining Playwright in Modern Development Workflows
+
+## Module Details
+
+This module explains how Playwright fits into Agile and DevOps workflows. Teams can run smoke tests on pull requests, regression tests nightly, cross-browser suites before release, and targeted tests during feature development. Cloud testing services can add browser/device scalability when local CI infrastructure is limited.
+
+## Test Tagging Strategy
+
+```ts
+import { test, expect } from '@playwright/test';
+
+test('checkout smoke @smoke', async ({ page }) => {
+  await page.goto('/checkout');
+  await expect(page.getByRole('heading', { name: 'Checkout' })).toBeVisible();
+});
+
+test('full order workflow @regression', async ({ page }) => {
+  await page.goto('/products');
+  await page.getByTestId('product-card').first().getByRole('button', { name: 'Add to cart' }).click();
+  await page.goto('/checkout');
+  await expect(page.getByRole('button', { name: 'Place order' })).toBeVisible();
+});
+```
+
+## Run Commands by Workflow
 
 ```bash
-# Install dependencies
-npm install
-npx playwright install
-
-# Run all tests
-npx playwright test
-
-# Run in headed mode (see browser)
-npx playwright test --headed
-
-# Run specific file
-npx playwright test product.spec.ts
-
-# Run tests matching pattern
-npx playwright test --grep "@smoke"
-
-# Run single test
-npx playwright test -g "Add product to cart"
-
-# Debug mode
-npx playwright test --debug
-
-# View test report
-npx playwright show-report
+npx playwright test --grep @smoke
+npx playwright test --grep @regression
+npx playwright test --project=chromium
+npx playwright test --project="Mobile Chrome"
 ```
 
-### CI/CD Configuration
+## Pull Request Feedback Loop
 
-The `playwright.config.ts` is pre-configured for CI environments:
-- Retries are enabled in CI
-- Single worker in CI to avoid conflicts
-- Videos captured on failure
-- Screenshots captured on failure
-- HTML reports generated
+```yaml
+name: Pull Request Smoke Tests
+on: [pull_request]
 
----
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npx playwright test --grep @smoke --project=chromium
+```
 
-## Best Practices Summary
+## Expected Result
 
-1. **Use Page Object Model** for maintainability
-2. **Leverage Fixtures** for setup and reusable context
-3. **Keep Tests Independent** - no test interdependencies
-4. **Use Meaningful Assertions** - verify actual outcomes
-5. **Handle Waits Properly** - use Playwright's auto-waiting
-6. **Test from User Perspective** - use semantic selectors
-7. **Maintain Test Data** - use factories for realistic data
-8. **Document Test Purpose** - clear test descriptions
-9. **Monitor Test Health** - track flaky tests
-10. **Iterate and Improve** - refactor tests regularly
+Playwright becomes part of the development workflow instead of a separate after-the-fact QA activity.
 
----
+## Key Takeaways
 
-## Project Structure Links
-
-- [Chapter 1-15](https://github.com/BrianGator/Playwright-Automation-TypeScript) - Individual learning modules
-- [Chapter 16 - E-commerce Project](https://github.com/BrianGator/Playwright-Automation-TypeScript/tree/main/Chapter16/ecom-test-project) - Complete example project
-  - [Tests](https://github.com/BrianGator/Playwright-Automation-TypeScript/tree/main/Chapter16/ecom-test-project/tests)
-  - [Page Objects](https://github.com/BrianGator/Playwright-Automation-TypeScript/tree/main/Chapter16/ecom-test-project/pages)
-  - [Fixtures](https://github.com/BrianGator/Playwright-Automation-TypeScript/tree/main/Chapter16/ecom-test-project/fixtures)
+- Use tags to separate smoke, regression, and feature tests.
+- Run fast checks on pull requests.
+- Run broader suites on scheduled or release workflows.
+- Align Playwright coverage with Agile acceptance criteria and DevOps quality gates.
 
 ---
 
-## Resources
+# 18. Community and Learning Resources
 
-- [Playwright Documentation](https://playwright.dev/)
-- [Playwright API Reference](https://playwright.dev/docs/api/class-playwright)
-- [Playwright Best Practices](https://playwright.dev/docs/best-practices)
-- [Playwright Debugging](https://playwright.dev/docs/debug)
-- [Practice Testing Website](https://practicesoftwaretesting.com)
+## Module Details
+
+This final module identifies ongoing learning resources and broader testing topics. Playwright changes over time, so automation engineers should follow official documentation, release notes, GitHub issues, community examples, and general testing resources.
+
+## Recommended Resources
+
+- Playwright official documentation
+- Playwright release notes
+- Microsoft Playwright GitHub repository
+- TypeScript documentation
+- Web accessibility guidelines and WCAG references
+- axe-core documentation
+- CI/CD provider documentation
+- Test automation design pattern resources
+
+## Practice Roadmap
+
+```text
+[ ] Build a first Playwright test
+[ ] Add Page Object Model
+[ ] Add fixtures
+[ ] Add authentication storage state
+[ ] Run tests across Chromium, Firefox, and WebKit
+[ ] Add GitHub Actions CI
+[ ] Add screenshots, traces, and videos
+[ ] Add accessibility checks
+[ ] Add visual regression tests
+[ ] Add mobile emulation tests
+[ ] Build a real e-commerce suite
+```
+
+## Expected Result
+
+The learner has a roadmap for continued Playwright growth and a framework structure that can be expanded into real project work.
+
+## Key Takeaways
+
+- Playwright skills grow through repeated framework practice.
+- Official documentation should be checked regularly.
+- Community patterns are useful, but framework decisions should fit the project.
+- Strong automation combines reliable tests, maintainable architecture, and fast feedback.
 
 ---
 
-## License
+# Common Playwright Commands
 
-ISC
+```bash
+npx playwright test
+npx playwright test --headed
+npx playwright test --debug
+npx playwright test --ui
+npx playwright test --project=chromium
+npx playwright test --grep @smoke
+npx playwright show-report
+npx playwright codegen https://example.com
+```
 
 ---
 
-**Written by Brian McCarthy**
+# Portfolio Summary
 
-For questions, improvements, or contributions, please refer to the individual chapter directories for specific implementation details.
+This repository demonstrates professional Playwright automation using TypeScript. It covers installation, advanced locators, dynamic UI, dialogs, iframes, Shadow DOM, multi-browser testing, AI-assisted test generation, custom fixtures, parallel execution, CI/CD, debugging, accessibility, visual regression, mobile emulation, forms, file uploads/downloads, authentication, Page Object Model, test data factories, and a real-world e-commerce testing workflow.
+
+Written by Brian McCarthy
